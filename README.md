@@ -1,14 +1,15 @@
 # Codex 主持的雙 AI 工作區
 
-這是一套在 Windows 上運作的 Codex CLI 工作區。Codex 是主要助理、討論主持人與最終整合者；使用者需要第二意見時，可以用特定前綴要求 Codex 呼叫 Antigravity CLI 獨立分析。
+這是一套在 Windows 上運作的 Codex CLI 工作區。Codex 是主要助理、討論主持人與最終整合者；Google Antigravity CLI 提供獨立分析、草稿與審查，最後仍由 Codex 修改、驗證並交付。
 
 目前 repository 也保存 FCO 影片分析專案的決策脈絡，讓不同 CLI 工作階段可以延續討論，不必每次重新說明背景。
 
 ## 目前具備的功能
 
 - Codex CLI 作為唯一的主要操作介面。
-- 使用指定前綴才啟動雙 AI 討論，普通問題不浪費第二個 AI 的額度。
+- 使用指定前綴啟動正式雙 AI 討論；大型一般任務也允許 Codex 按效益自動請 Antigravity 協助一次。
 - Codex 與 Antigravity 分別分析，再由 Codex 整理共同看法、分歧、結論與下一步。
+- CLI 底部狀態列顯示 Codex 模型、context、5 小時額度、每週額度與 Git 分支。
 - Codex 原生本機 Memories，協助跨對話回想。
 - `PROJECT_MEMORY.md` 保存明確的專案事實、決策、理由、未決問題與下一步。
 - 啟動時預設續接此資料夾最近一次 Codex 對話。
@@ -20,9 +21,9 @@
 ```text
 使用者
   ↓
-Codex CLI（主要助理、主持、判斷與實作）
-  ↓  僅在雙 AI 前綴出現時
-Antigravity CLI（獨立第二意見）
+Codex CLI（主要助理、主持、判斷、修改與驗證）
+  ↓  正式雙 AI 前綴，或大型任務的有益分工
+Antigravity CLI（Google 輔助分析、草稿、測試策略與審查）
   ↓
 Codex CLI（比較證據、保留分歧、提出主持結論）
 ```
@@ -31,7 +32,7 @@ Codex CLI（比較證據、保留分歧、提出主持結論）
 
 ## 雙 AI 觸發方式
 
-只有訊息以任一前綴開頭時，Codex 才會呼叫 Antigravity：
+訊息以任一前綴開頭時，Codex 必須呼叫 Antigravity 執行正式雙 AI 流程：
 
 - `雙AI：`
 - `雙 AI：`
@@ -50,7 +51,9 @@ Codex CLI（比較證據、保留分歧、提出主持結論）
 3. 主持結論
 4. 下一步
 
-每個使用者問題最多呼叫 Antigravity 兩次。呼叫失敗時，Codex 必須明確報告，不能假裝取得第二 AI 意見。
+一般大型任務中，Codex 也可以主動請 Antigravity 完成獨立研究、方案比較、草稿、測試策略或 review。簡單問題不呼叫；通常只呼叫一次，重大分歧才追加一次。每個使用者問題最多呼叫 Antigravity 兩次。
+
+Antigravity 不直接修改專案檔案。所有修改、測試、個資掃描與最終判斷仍由 Codex 負責。呼叫失敗時，Codex 必須明確報告，不能假裝取得第二 AI 意見。
 
 ## 記憶設計
 
@@ -64,6 +67,7 @@ Codex CLI（比較證據、保留分歧、提出主持結論）
 features.memories=true
 memories.generate_memories=true
 memories.use_memories=true
+tui.status_line=["model-with-reasoning","context-remaining","five-hour-limit","weekly-limit","git-branch"]
 ```
 
 本機 Memories 由 Codex 在背景整理，適合輔助回想，但不保證在對話結束後立即產生。
@@ -103,8 +107,8 @@ memories.use_memories=true
 | `AGENTS.md` | Codex 的持久工作規則、雙 AI 流程、安全規則與記憶規則 |
 | `PROJECT_MEMORY.md` | FCO 與本工作區的持久專案脈絡 |
 | `start-codex.ps1` | 啟動 Codex、啟用 Memories，並預設續接最近對話 |
-| `tools/ask-antigravity.ps1` | 將最小必要問題送給 Antigravity CLI |
-| `tools/ask-gemini.ps1` | 早期保留的 Gemini wrapper，目前不是正式雙 AI 流程 |
+| `tools/ask-antigravity.ps1` | 將最小必要問題送給 Antigravity，是正式雙 AI 與自動分工入口 |
+| `tools/ask-gemini.ps1` | 舊 Gemini wrapper；Google 個人版已回報不再支援此 client，不是預設工作流 |
 | `.gitignore` | 避免提交環境檔、金鑰、憑證與暫存輸出 |
 | `AGENTS.backup.md` | 早期規則備份，僅供追溯 |
 
@@ -149,7 +153,7 @@ powershell -ExecutionPolicy Bypass -File .\start-codex.ps1 -New
 - 不把 GitHub Token、密碼、API key 或私鑰提交到 repository。
 - 不提交私人電子郵件、電話、住址、身分證件、裝置識別碼或非必要的本機使用者路徑。
 - 公開的 GitHub 帳號與 repository 網址只在識別專案確有需要時保留。
-- 傳送給第二 AI 的內容限於回答問題所需的最小脈絡。
+- 傳送給 Antigravity 的內容限於回答問題所需的最小脈絡。
 - 討論與審查預設不修改檔案。
 - 不安裝套件或執行破壞性命令，除非使用者明確授權。
 - 不製造虛假的雙 AI 共識，重大分歧必須保留。

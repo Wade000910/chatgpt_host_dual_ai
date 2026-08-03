@@ -13,14 +13,15 @@ try {
     exit 1
 }
 
-$memoryArgs = @(
+$codexArgs = @(
     "-c", "features.memories=true",
     "-c", "memories.generate_memories=true",
-    "-c", "memories.use_memories=true"
+    "-c", "memories.use_memories=true",
+    "-c", 'tui.status_line=["model-with-reasoning","context-remaining","five-hour-limit","weekly-limit","git-branch"]'
 )
 
 if ($New) {
-    & codex @memoryArgs
+    & codex @codexArgs
 } else {
-    & codex resume --last @memoryArgs
+    & codex resume --last @codexArgs
 }

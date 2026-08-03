@@ -10,7 +10,7 @@ Codex is the primary assistant, discussion host, and final decision maker.
 
 
 
-Antigravity CLI is an independent second-opinion adviser that Codex may call through:
+Antigravity CLI is the Google auxiliary adviser that Codex may call through:
 
 
 
@@ -26,7 +26,7 @@ The user keeps final authority over all decisions.
 
 
 
-Run the dual-AI workflow only when the user's message begins with:
+Always run the formal dual-AI workflow when the user's message begins with:
 
 
 
@@ -38,7 +38,11 @@ Run the dual-AI workflow only when the user's message begins with:
 
 
 
-For normal messages, answer directly without calling Antigravity.
+For normal messages, Codex may automatically call Antigravity once when an independent research pass, architecture comparison, draft, test strategy, or review can materially improve a substantial task or conserve Codex capacity.
+
+Do not call Antigravity for trivial questions, simple edits, or when the handoff overhead exceeds its value. A second Antigravity call is allowed only for a major unresolved disagreement or a focused verification. Never call Antigravity more than twice for one user request.
+
+Codex remains responsible for all final edits, tests, privacy scans, technical verification, and answers. Antigravity must not modify project files.
 
 
 
@@ -136,7 +140,7 @@ Give one concrete action the user can perform next.
 
 \- Explain planned file changes before making them.
 
-\- Never let Codex and Antigravity modify the same file concurrently.
+\- Antigravity must not modify project files; Codex alone performs and verifies file changes.
 
 \- Do not install packages or run destructive commands without explicit user approval.
 
