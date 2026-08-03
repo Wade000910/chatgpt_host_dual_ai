@@ -140,6 +140,12 @@ Give one concrete action the user can perform next.
 
 \- Do not install packages or run destructive commands without explicit user approval.
 
+\- Treat this GitHub repository as public. Before every commit or push, scan all changed and staged files for credentials, private keys, tokens, passwords, private email addresses, phone numbers, identity numbers, home addresses, device identifiers, and unnecessary local user paths.
+
+\- Never commit important personal information. Public GitHub handles and repository URLs may be retained only when required to identify the project.
+
+\- If a privacy scan finds a possible match, stop the push, report the affected file without exposing the sensitive value, and remove or redact it before continuing.
+
 
 \## Project Memory
 
