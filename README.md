@@ -83,7 +83,7 @@ memories.use_memories=true
 
 遠端 repository：`Wade000910/chatgpt_host_dual_ai`
 
-目前 repository 是 **Private**。只有擁有者與獲邀協作者能查看這份說明。
+目前 repository 是 **Public**。任何人都能查看 repository 中的檔案與 Git 歷史，因此提交前必須檢查並排除憑證及非必要個人資料。
 
 初始基線保存在 `main`。後續功能預設流程：
 
@@ -147,6 +147,8 @@ powershell -ExecutionPolicy Bypass -File .\start-codex.ps1 -New
 ## 安全原則
 
 - 不把 GitHub Token、密碼、API key 或私鑰提交到 repository。
+- 不提交私人電子郵件、電話、住址、身分證件、裝置識別碼或非必要的本機使用者路徑。
+- 公開的 GitHub 帳號與 repository 網址只在識別專案確有需要時保留。
 - 傳送給第二 AI 的內容限於回答問題所需的最小脈絡。
 - 討論與審查預設不修改檔案。
 - 不安裝套件或執行破壞性命令，除非使用者明確授權。

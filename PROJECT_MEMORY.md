@@ -13,7 +13,7 @@ This file preserves durable project context between Codex CLI sessions. It conta
 - The user wants Codex to host discussions and use Antigravity only when a message begins with a configured dual-AI trigger.
 - Git for Windows 2.55.0 and GitHub CLI 2.94.0 were installed on 2026-08-03.
 - GitHub CLI is authorized as `Wade000910`.
-- The private remote repository is `https://github.com/Wade000910/chatgpt_host_dual_ai`.
+- The public remote repository is `https://github.com/Wade000910/chatgpt_host_dual_ai`.
 
 ## Decisions
 
@@ -21,6 +21,7 @@ This file preserves durable project context between Codex CLI sessions. It conta
 - Reconsider direct Android-first development only if live feedback is confirmed to be indispensable to FCO's user value, or if hard privacy, offline-operation, or deployment constraints require on-device processing.
 - Use feature branches and Pull Requests for GitHub delivery instead of pushing unreviewed work directly to `main`.
 - Keep a collaborator-facing project overview in `README.md` so others with repository access can understand the configured dual-AI, memory, GitHub, and safety workflows without exposing credentials.
+- Treat every tracked file and commit as publicly visible; exclude credentials and unnecessary personal information before pushing.
 
 ## Reasons
 
