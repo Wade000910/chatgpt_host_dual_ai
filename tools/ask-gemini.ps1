@@ -21,15 +21,22 @@ if ([string]::IsNullOrWhiteSpace($Prompt)) {
 }
 
 try {
-    $geminiCommand = Get-Command gemini.cmd -ErrorAction Stop
+    $geminiPath = (Get-Command gemini.cmd -ErrorAction Stop).Source
 }
 catch {
-    Write-Error "gemini.cmd was not found."
-    exit 3
+    $npmGemini = Join-Path $env:APPDATA "npm\gemini.cmd"
+
+    if (Test-Path -LiteralPath $npmGemini) {
+        $geminiPath = $npmGemini
+    }
+    else {
+        Write-Error "gemini.cmd was not found."
+        exit 3
+    }
 }
 
 try {
-    & $geminiCommand.Source -p $Prompt
+    & $geminiPath -p $Prompt
 
     if ($null -eq $LASTEXITCODE) {
         exit 0

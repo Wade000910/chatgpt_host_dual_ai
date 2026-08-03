@@ -10,7 +10,7 @@ This file preserves durable project context between Codex CLI sessions. It conta
 
 - FCO involves video analysis.
 - The first implementation path under consideration is either a Python offline video-analysis prototype or an Android real-time version.
-- The user wants Codex to host discussions and use Antigravity only when a message begins with a configured dual-AI trigger.
+- The user wants Codex to remain the primary host and final verifier, with Antigravity required for configured dual-AI triggers and available for automatic high-value delegation on substantial tasks.
 - Git for Windows 2.55.0 and GitHub CLI 2.94.0 were installed on 2026-08-03.
 - GitHub CLI is authorized as `Wade000910`.
 - The public remote repository is `https://github.com/Wade000910/chatgpt_host_dual_ai`.
@@ -22,6 +22,9 @@ This file preserves durable project context between Codex CLI sessions. It conta
 - Use feature branches and Pull Requests for GitHub delivery instead of pushing unreviewed work directly to `main`.
 - Keep a collaborator-facing project overview in `README.md` so others with repository access can understand the configured dual-AI, memory, GitHub, and safety workflows without exposing credentials.
 - Treat every tracked file and commit as publicly visible; exclude credentials and unnecessary personal information before pushing.
+- Use Codex as the primary controller and final editor/verifier. Codex may automatically delegate substantial independent analysis, drafting, test strategy, or review work to Antigravity CLI, normally once and never more than twice per user request.
+- Show Codex model, remaining context, five-hour usage, weekly usage, and Git branch in the CLI footer. Antigravity CLI does not currently expose a reliable quota value for the Codex footer.
+- The installed standalone Gemini CLI 0.46.0 reports that Gemini Code Assist for individuals no longer supports this client and directs users to Antigravity, so it is not used as the active auxiliary workflow.
 
 ## Reasons
 
