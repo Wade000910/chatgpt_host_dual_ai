@@ -20,6 +20,7 @@ This file preserves durable project context between Codex CLI sessions. It conta
 - Current recommendation: begin with a Python offline analysis prototype, plus a very small Android device-performance probe if real-time operation may be essential.
 - Reconsider direct Android-first development only if live feedback is confirmed to be indispensable to FCO's user value, or if hard privacy, offline-operation, or deployment constraints require on-device processing.
 - Use feature branches and Pull Requests for GitHub delivery instead of pushing unreviewed work directly to `main`.
+- Keep a collaborator-facing project overview in `README.md` so others with repository access can understand the configured dual-AI, memory, GitHub, and safety workflows without exposing credentials.
 
 ## Reasons
 
