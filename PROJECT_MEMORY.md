@@ -27,6 +27,7 @@ This file preserves durable project context between Codex CLI sessions. It conta
 - After the Orca migration is stable, the next environment objective is secure phone control of Orca agent sessions through the official Orca Mobile companion.
 - Orca Mobile is the selected primary phone-access path. Chrome Remote Desktop remains an optional full-Windows fallback; AC-powered automatic sleep is disabled to preserve Orca host availability, while battery sleep remains set to three minutes.
 - Proposed multi-AI policy: Codex remains the sole coordinator and verifier; use one agent by default, Orca workers only for genuinely independent parallel tasks, and Antigravity only for high-value architecture or review, or after repeated failed attempts.
+- Proposed quota policy: route suitable low-risk work to verified free-tier agents first, then give Codex only compressed candidate results, diffs, and evidence for final decisions. Preserve Codex quota as the scarce fallback and verification resource.
 - Proposed context policy: never pass raw transcripts between agents; use a compact brief containing objective, constraints, target files or evidence, deliverable, and pass/fail criteria.
 - Current recommendation: begin with a Python offline analysis prototype, plus a very small Android device-performance probe if real-time operation may be essential.
 - Reconsider direct Android-first development only if live feedback is confirmed to be indispensable to FCO's user value, or if hard privacy, offline-operation, or deployment constraints require on-device processing.
@@ -55,10 +56,11 @@ This file preserves durable project context between Codex CLI sessions. It conta
 - Should the workspace add an automated health check, a repeatable privacy-scan command, and validation for the dual-AI wrapper before FCO implementation begins?
 - Should the literal Markdown escape characters in `AGENTS.md` be normalized for readability and reliable parsing?
 - Which additional AI provider should be connected to Orca first, based on complementary capability and subscription cost rather than agent count?
+- Gemini CLI is the first free-tier integration candidate. Grok is an experiment candidate because its official free coding quota is not clearly documented; Kimi Code and MiniMax should not be treated as stable free resources under their current official plans.
 
 ## Next action
 
-- Run a small measured pilot comparing Codex-only work with one targeted Antigravity review before adding another paid AI provider.
+- Connect and verify Gemini's free Google-account tier in Orca, then measure a free-agent-first task with Codex used only for final verification.
 
 ## Memory rules
 

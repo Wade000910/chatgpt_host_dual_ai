@@ -17,7 +17,8 @@
 ### 協作策略提案
 
 - Codex 擔任唯一 coordinator、最終編輯者與驗證者。
-- 簡單修改與一般問答預設只使用 Codex。
+- 採用 `free-first, Codex-last`：適合的低風險工作先使用已驗證的免費代理，Codex 只讀取壓縮後的候選結果、diff 與證據。
+- Orca 的非模型規則負責路由與額度門檻，避免為了選擇代理本身消耗 Codex token。
 - 只有任務可獨立切分時，才使用隔離 worktree 的 Orca workers 平行處理。
 - 架構、安全審查或連續失敗兩次的問題，才呼叫 Antigravity；每個使用者請求最多兩次。
 - 代理之間只傳遞精簡 brief：目標、限制、目標檔案或證據、交付物、通過條件；不傳完整聊天紀錄。
@@ -29,10 +30,18 @@
 - 首次完成率與重做次數。
 - 外部審查實際改變最終方案的比例。
 - 平行 worker 的等待時間、衝突率與合併成本。
+- 每個 provider 的免費額度命中率，以及因此節省的 Codex 額度。
+
+### 免費資源盤點（2026-08-08）
+
+- Gemini CLI 的 Google 個人帳號免費層是第一接入候選；官方目前列出每日與每分鐘免費 request 額度。
+- Grok 官方標示可免費開始，但 coding CLI 的可依賴免費額度未明，僅列為實驗候選。
+- Kimi Code 官方目前屬於會員權益；MiniMax Coding Plan 以付費方案為主，兩者不列入穩定免費池。
+- 免費不代表適合傳送所有資料；每個 provider 仍須遵守最小上下文與公開 repository 的隱私規則。
 
 ### 下一步
 
-- 先以一個小任務比較 Codex-only 與 Codex＋一次 Antigravity review，再決定是否值得加入下一個付費 AI provider。
+- 先接入並驗證 Gemini 免費 Google 帳號，再測試一次免費代理先行、Codex 最終驗證的完整流程。
 
 ## Environment v0.2 — 2026-08-08
 
