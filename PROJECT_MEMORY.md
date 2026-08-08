@@ -68,7 +68,7 @@ This file preserves durable project context between Codex CLI sessions. It conta
 
 ## Next action
 
-- Compare Copilot Free, OpenRouter Free, and Antigravity on one small sanitized review task, recording output quality, latency, and Codex verification effort; then evaluate Grok as the next experimental provider.
+- Checkpoint: environment expansion is intentionally paused after verifying Copilot Free and OpenRouter Free alongside paid Antigravity. On resume, first compare all three on one small sanitized review task; only then evaluate Grok as the next experimental provider.
 
 ## Memory rules
 

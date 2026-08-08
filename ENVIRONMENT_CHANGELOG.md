@@ -76,6 +76,13 @@
 - 使用 OpenCode `plan` agent 與 `openrouter/free` 在暫存目錄完成唯讀測試，約 5.4 秒回覆 `OPENROUTER_FREE_OK`，Git 工作樹保持乾淨。
 - 新增 `tools/ask-openrouter.ps1` 作為已去敏感、低風險任務的免費 worker 入口，並支援 Base64 UTF-8 brief。
 
+### 目前 Checkpoint
+
+- 已驗證可用：Codex、付費 Antigravity、GitHub Copilot Free，以及 OpenRouter Free／OpenCode。
+- 已建立唯讀 worker 入口：`tools/ask-copilot.ps1` 與 `tools/ask-openrouter.ps1`；Antigravity 由既有 wrapper 調用。
+- Grok 尚未申請或接入，避免把「候選資源」誤記成「已配置資源」。
+- 環境擴充暫停於此；恢復時先以同一個已去敏感的小型 review 任務比較三個輔助來源，再決定是否繼續接入 Grok。
+
 ### 首次 Antigravity-first 測試
 
 - Antigravity 完成兩份策略文件的唯讀審查，耗時約 72 秒；Git 工作樹維持乾淨。
