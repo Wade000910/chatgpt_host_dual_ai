@@ -1,6 +1,6 @@
 # FCO Project Memory
 
-Last updated: 2026-08-08
+Last updated: 2026-08-09
 
 ## Purpose
 
@@ -19,12 +19,24 @@ This file preserves durable project context between Codex CLI sessions. It conta
 - Chrome Remote Desktop Host 151.0.7922.13 was installed and verified on 2026-08-08; the `chromoting` service is running with automatic startup.
 - Orca Mobile pairing with the user's iPhone was confirmed successful on 2026-08-08 by continuing the active Orca session from the phone.
 - Orca Relay was verified over the iPhone's 4G/5G connection: prompts, completion notifications, and response content arrive successfully. Mobile text rendering has a small delay that is currently acceptable to the user.
+- The next environment goal is efficient multi-AI collaboration with minimal token waste. As of 2026-08-08, Codex, paid Antigravity, and GitHub Copilot Free are callable; Copilot is available through an Orca terminal-worker wrapper, while automatic provider routing remains future work.
+- Correction: the user has a paid Antigravity account. Antigravity CLI is installed, authenticated, callable through the wrapper, detected on `PATH`, and enabled in Orca's Agents settings. Orca's usage panel incorrectly reports it as unavailable because legacy Gemini OAuth tracking is disabled; this does not prevent Antigravity execution.
+- GitHub Copilot Free is active for the user's GitHub account. GitHub Copilot CLI 1.0.78 is installed and authenticated; a minimal no-file-access prompt returned `COPILOT_OK`, and the Git worktree remained clean.
+- `tools/ask-copilot.ps1` is the repository's read-only Copilot worker entry point. It accepts plain or Base64-encoded UTF-8 prompts, disables project instructions, denies shell and write tools, and is designed for Orca terminal workers or direct one-shot delegation.
+- Orca successfully created a visible Copilot terminal worker and read back both `ORCA_COPILOT_WORKER_OK` and a Base64-delivered UTF-8 test result, `BASE64_WORKER_OK`. Visible worker terminals return to a shell prompt, so completion monitoring must read an expected marker instead of waiting for process exit.
+- A first tiny read-only comparison asked Copilot Free and Antigravity to compress the same three routing constraints into one Traditional Chinese sentence. Both preserved all constraints; Copilot took about 12.9 seconds and Antigravity about 10.5 seconds. This single sample verifies both paths but is not enough to rank providers.
+- OpenCode 1.18.15 is installed and authenticated to OpenRouter using a locally stored API key. The `openrouter/free` route returned `OPENROUTER_FREE_OK` in about 5.4 seconds through OpenCode's plan agent, with no project changes.
+- `tools/ask-openrouter.ps1` is the read-only OpenRouter worker entry point. It supports plain or Base64 UTF-8 prompts, forces `openrouter/free`, uses OpenCode's plan agent, and runs from the system temporary directory.
+- Environment v0.4 reorganizes collaborator-facing documentation into `README.md`, `docs/COLLABORATION_WORKFLOW.md`, `VERSION_HISTORY.md`, and `ENVIRONMENT_CHANGELOG.md`; each future environment version must update the version history and implementation changelog.
 
 ## Decisions
 
 - Current priority is migrating the working environment from standalone Codex CLI into Orca. FCO implementation and the dual-AI collaboration workflow are deferred until that migration is understood and stabilized.
 - After the Orca migration is stable, the next environment objective is secure phone control of Orca agent sessions through the official Orca Mobile companion.
 - Orca Mobile is the selected primary phone-access path. Chrome Remote Desktop remains an optional full-Windows fallback; AC-powered automatic sleep is disabled to preserve Orca host availability, while battery sleep remains set to three minutes.
+- Proposed multi-AI policy: Codex remains the sole coordinator and verifier; use one agent by default, Orca workers only for genuinely independent parallel tasks, and Antigravity only for high-value architecture or review, or after repeated failed attempts.
+- Proposed quota policy: route suitable low-risk work to verified free-tier agents first, then give Codex only compressed candidate results, diffs, and evidence for final decisions. Preserve Codex quota as the scarce fallback and verification resource.
+- Proposed context policy: never pass raw transcripts between agents; use a compact brief containing objective, constraints, target files or evidence, deliverable, and pass/fail criteria.
 - Current recommendation: begin with a Python offline analysis prototype, plus a very small Android device-performance probe if real-time operation may be essential.
 - Reconsider direct Android-first development only if live feedback is confirmed to be indispensable to FCO's user value, or if hard privacy, offline-operation, or deployment constraints require on-device processing.
 - Use feature branches and Pull Requests for GitHub delivery instead of pushing unreviewed work directly to `main`.
@@ -51,10 +63,13 @@ This file preserves durable project context between Codex CLI sessions. It conta
 - What are the team's Python/ML and Android/on-device deployment capabilities?
 - Should the workspace add an automated health check, a repeatable privacy-scan command, and validation for the dual-AI wrapper before FCO implementation begins?
 - Should the literal Markdown escape characters in `AGENTS.md` be normalized for readability and reliable parsing?
+- How does the Copilot-first worker compare with Antigravity-first on completion time, quota cost, and Codex verification effort?
+- Antigravity CLI is Google's successor to Gemini CLI for individual free, Google AI Pro, and Ultra accounts as of 2026-06-18; it must not be counted as a separate quota pool from Gemini CLI. Grok remains an experiment candidate because its official free coding quota is not clearly documented; Kimi Code and MiniMax are not stable free resources under their current official plans.
+- Free-resource priority: GitHub Copilot Free first; the now-verified OpenRouter free pool through OpenCode second for public or sanitized low-risk tasks; Grok Free as an experimental source; local models after hardware validation. Claude Code has no standalone free CLI entitlement, and Qwen OAuth free access ended on 2026-04-15.
 
 ## Next action
 
-- Inventory which standalone Codex CLI settings and data Orca already imports, then define a safe migration plan that excludes credentials, caches, locks, and live databases.
+- Checkpoint: environment expansion is intentionally paused after verifying Copilot Free and OpenRouter Free alongside paid Antigravity. On resume, first compare all three on one small sanitized review task; only then evaluate Grok as the next experimental provider.
 
 ## Memory rules
 

@@ -1,54 +1,115 @@
 # Environment changelog
 
-這份文件記錄 Codex／Orca 工作環境的公開版本、實作結果、卡關與後續行動。它不保存原始聊天、登入憑證、配對碼、私人裝置資訊或不必要的本機路徑。
+這份文件按版本記錄實作過程、卡關、原因與解法。版本摘要見 `VERSION_HISTORY.md`；目前狀態與下一步見 `PROJECT_MEMORY.md`。任何憑證、配對碼、私人資料與不必要的本機路徑都不得出現在這裡。
 
-## Environment v0.2 — 2026-08-08
+## v0.4 — 文件與 checkpoint
 
-### 目標
+### 完成
 
-- 將主要操作環境從獨立 Codex CLI 遷移到 Orca。
-- 保留既有專案規則、記憶、skills 與 Git 工作流程。
-- 讓 Orca Mobile 可以從 iPhone 經行動網路控制桌面端代理工作階段。
+- 將 README 改為現況導覽，而不是沿用舊雙 AI 說明。
+- 新增 `docs/COLLABORATION_WORKFLOW.md` 與 `VERSION_HISTORY.md`。
+- 將已驗證 provider、未接入候選、路由規則與恢復工作步驟分開記錄。
+- 正規化 `AGENTS.md` 的 Markdown 與多 AI 規則。
 
-### 已完成
+## v0.3 — 多 AI 免費優先池
 
-- 確認 Orca 已建立獨立 Codex runtime，並帶入 Codex 設定、登入狀態、狀態列與專案信任設定。
-- 確認 Orca 的 plugins 目前與既有 Codex plugins 共用來源，而 sessions、history、memories 與 runtime databases 維持分離。
-- 確認選裝自 `mattpocock/skills` 的 `grill-me` 與 `grilling` 可在 Orca 使用。
-- 確認專案 PowerShell 腳本皆可通過語法解析。
-- 完成 Orca Mobile 與 iPhone 配對。
-- 使用 4G／5G 驗證 Orca Relay：手機可送出 prompt、收到完成通知及回覆內容。
-- 將插電模式的自動睡眠設為停用，避免桌面 Orca host 因睡眠離線；電池模式維持原設定。
+### Antigravity
 
-### 迭代與卡關
+- 已確認使用者是付費 Antigravity 帳號；CLI 已安裝、登入、位於 PATH 並可由 wrapper 呼叫。
+- Orca Agents 可偵測並啟用 Antigravity。
+- Orca usage panel 因舊 Gemini OAuth tracking 停用而顯示 unavailable；這是額度顯示問題，不是代理失效。
+- 首次唯讀策略審查約 72 秒完成，Git 工作樹乾淨。
 
-| 狀況 | 判斷 | 處理結果 |
+卡關與解法：
+
+| 狀況 | 原因 | 解法 |
 |---|---|---|
-| PowerShell 顯示中文亂碼 | Markdown 是有效 UTF-8；Windows PowerShell 5.1 預設解碼不符 | 讀取時明確使用 `-Encoding utf8` |
-| 一般 PowerShell 無法直接執行 `codex` | npm 的 `codex.ps1` shim 被執行原則阻擋 | 可使用 `codex.cmd`；舊啟動腳本透過 `-ExecutionPolicy Bypass` 啟動 |
-| Windows Home 無法作為 Microsoft RDP host | Windows 內建 RDP host 需要 Pro edition | 不採用 RDP |
-| 最初將需求理解為完整 Windows 桌面遙控 | 安裝了 Chrome Remote Desktop Host | 保留為選用備援；Orca Mobile 改為主要手機入口 |
-| Orca Mobile 開啟工作階段時回覆文字稍有延遲 | Relay、行動網路與 Chat UI hydration 存在同步延遲 | 通知與內容均能抵達，目前可接受；必要時切換 raw terminal 或刷新 worktree |
-| GitHub CLI 驗證失效 | `gh auth status` 回報既有憑證無效 | 重新執行官方 `gh auth login` 後才能自動建立 Pull Request |
+| Orca headless 測試沒有結果 | 缺少 Antigravity command permission | 加入必要 permission 旗標後重試 |
+| `terminal send` 傳長 prompt 失敗 | Windows quoting | 改用 wrapper／直接 CLI；長 brief 使用 Base64 |
+| 把 Antigravity 誤列成免費資源 | 未先確認帳號方案 | 更正為付費資源，不與 Gemini 重複計算額度 |
 
-### 已知限制
+### GitHub Copilot Free
 
-- 手機不是獨立執行環境；桌面 Orca 必須保持執行且電腦不可睡眠。
-- Orca Mobile 的文字呈現可能比完成通知稍慢。
-- 舊 Codex sessions、history 與 memories 尚未直接匯入 Orca databases；在沒有官方匯入機制前不覆蓋資料庫。
-- Chrome Remote Desktop Host 目前仍安裝，是否移除尚未決定。
+- GitHub 帳號已啟用 Copilot Free。
+- 安裝 GitHub Copilot CLI 1.0.78，認證與最小回應測試成功。
+- 新增 `tools/ask-copilot.ps1`；關閉 custom instructions，deny shell 與 write。
+- Orca terminal worker 成功讀回英文與 Base64 UTF-8 測試標記。
 
-### 下一步
+卡關與解法：
 
-- 重新完成 GitHub CLI 授權並建立本次文件更新的 Pull Request。
-- 決定是否移除 Chrome Remote Desktop 備援。
-- 將舊的 `start-codex.ps1` 標記為 legacy，並補上 Orca-first 的啟動與健康檢查流程。
+| 狀況 | 原因 | 解法 |
+|---|---|---|
+| `npm.ps1` 被阻擋 | Windows PowerShell Execution Policy | 使用 `npm.cmd` |
+| Orca command 含空白 prompt 解析失敗 | Windows quoting | wrapper 支援 `-PromptBase64` |
+| 等待 terminal exit 逾時 | 可見 terminal 完成後回到 shell，不退出 | 等待 idle 後輪詢 output marker |
+| `tui-idle` 太早觸發 | shell 短暫 idle 早於模型輸出 | 再用 `terminal read`／`terminal show` 確認標記 |
 
-## Environment v0.1 — 2026-08-03
+測試：
 
-### 已完成
+- `COPILOT_OK`
+- `COPILOT_WRAPPER_OK`
+- `ORCA_COPILOT_WORKER_OK`
+- `BASE64_WORKER_OK`
+- 與 Antigravity 的同題微型比較：Copilot 約 12.9 秒、Antigravity 約 10.5 秒；兩者均保留全部要求。單一樣本不足以排名。
+
+### OpenRouter Free／OpenCode
+
+- 安裝 OpenCode 1.18.15。
+- 以 OpenRouter 官方 API key 完成本機 provider 認證；憑證不在 repository。
+- 固定使用 `openrouter/free`，只路由免費模型。
+- 新增 `tools/ask-openrouter.ps1`；使用 plan agent、暫存目錄與 Base64 UTF-8 brief。
+
+卡關與解法：
+
+| 狀況 | 原因 | 解法 |
+|---|---|---|
+| `opencode.ps1` 被阻擋 | Windows PowerShell Execution Policy | 固定使用 `opencode.cmd` |
+| Orca terminal 無法正常輸入英文 key | 中文輸入法與 terminal focus | 透過 Orca terminal input channel 傳送，不在聊天顯示 key |
+| 第一次 Authorization header 無效 | 錯誤文字被保存成 credential | 登出錯誤 credential；只驗證剪貼簿 key 的前綴、單行與長度後重新登入 |
+| `run --help` 曾回報 `.config/opencode` EEXIST | OpenCode Windows 初始化的暫時競爭 | 確認路徑是正常資料夾且無殘留程序後重試成功 |
+
+測試：
+
+- `OPENROUTER_FREE_OK`，約 5.4 秒。
+- `OPENROUTER_WRAPPER_OK`，Base64 中文 brief 成功。
+- 所有測試後 Git 工作樹均無非預期變更。
+
+### v0.3 checkpoint
+
+- 已驗證：Codex、付費 Antigravity、Copilot Free、OpenRouter Free／OpenCode。
+- 尚未接入：Grok。
+- 尚未完成：完全自動、額度感知的 provider router；多 provider 真實 review benchmark。
+
+## v0.2 — Orca 與手機連線
+
+### 完成
+
+- 將主要操作環境遷移到 Orca。
+- 確認選裝自 `mattpocock/skills` 的 `grill-me` 與 `grilling` 可用。
+- 完成 Orca Mobile 與 iPhone 配對。
+- 以 4G／5G 驗證 prompt、完成通知與回覆內容。
+- 插電模式停用自動睡眠；電池模式保留原設定。
+
+卡關與解法：
+
+| 狀況 | 原因 | 解法 |
+|---|---|---|
+| PowerShell 顯示中文亂碼 | Windows PowerShell 5.1 預設編碼 | 讀取 Markdown 時指定 `-Encoding utf8` |
+| `codex.ps1` 被阻擋 | Windows Execution Policy | 使用 `codex.cmd` 或 `-ExecutionPolicy Bypass` |
+| Windows Home 無法作為 RDP host | 系統版本限制 | Orca Mobile 為主要入口；Chrome Remote Desktop 為備援 |
+| 手機先收到完成通知、稍後才看到文字 | Relay／行動網路／UI hydration 延遲 | 延遲目前可接受；必要時刷新或切 raw terminal |
+| GitHub CLI 憑證失效 | 舊授權無效 | 重新執行官方 `gh auth login` |
+
+已知限制：
+
+- 桌面 Orca 必須保持執行，電腦不可睡眠。
+- 舊 Codex sessions、history 與 runtime database 尚未匯入 Orca。
+
+## v0.1 — Codex／Antigravity 基線
+
+### 完成
 
 - 建立 Codex 主持、Antigravity 輔助的雙 AI 規則。
-- 建立 `PROJECT_MEMORY.md` 作為可版本控制的耐久專案記憶。
-- 設定 GitHub public repository、安全規則、功能分支與 Pull Request 工作流程。
+- 建立可版本控制的 `PROJECT_MEMORY.md`。
 - 建立 Codex、Antigravity 與舊 Gemini PowerShell wrappers。
+- 建立 public repository 隱私、安全、功能分支與 Pull Request 規則。
