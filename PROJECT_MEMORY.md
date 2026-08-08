@@ -19,7 +19,8 @@ This file preserves durable project context between Codex CLI sessions. It conta
 - Chrome Remote Desktop Host 151.0.7922.13 was installed and verified on 2026-08-08; the `chromoting` service is running with automatic startup.
 - Orca Mobile pairing with the user's iPhone was confirmed successful on 2026-08-08 by continuing the active Orca session from the phone.
 - Orca Relay was verified over the iPhone's 4G/5G connection: prompts, completion notifications, and response content arrive successfully. Mobile text rendering has a small delay that is currently acceptable to the user.
-- The next environment goal is efficient multi-AI collaboration with minimal token waste. As of 2026-08-08, Codex is the only authenticated agent inside Orca; the separate Antigravity wrapper works for targeted advisory calls, while other Orca providers are not yet configured.
+- The next environment goal is efficient multi-AI collaboration with minimal token waste. As of 2026-08-08, Codex and paid Antigravity are usable; other Orca providers are not yet configured.
+- Correction: the user has a paid Antigravity account. Antigravity CLI is installed, authenticated, callable through the wrapper, detected on `PATH`, and enabled in Orca's Agents settings. Orca's usage panel incorrectly reports it as unavailable because legacy Gemini OAuth tracking is disabled; this does not prevent Antigravity execution.
 
 ## Decisions
 
@@ -60,7 +61,7 @@ This file preserves durable project context between Codex CLI sessions. It conta
 
 ## Next action
 
-- Integrate the already-working Antigravity CLI into Orca as the Google free-first worker, confirm its `/usage` quota display, then measure one task with Codex used only for final verification.
+- Launch the already-enabled Antigravity agent from Orca and measure one Antigravity-first task with Codex used only for final verification; separately investigate Orca's incorrect Antigravity quota-status detection.
 
 ## Memory rules
 

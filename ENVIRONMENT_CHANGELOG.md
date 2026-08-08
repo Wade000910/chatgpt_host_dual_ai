@@ -10,8 +10,9 @@
 
 ### 現況
 
-- Codex 是 Orca 內目前唯一已驗證可用的主要代理。
-- Antigravity 可透過既有 wrapper 執行按需的獨立審查，但尚未成為 Orca 內的常駐代理。
+- Codex 與付費 Antigravity 是目前已驗證可用的主要代理。
+- 更正：使用者已有付費 Antigravity；CLI 已安裝、登入、位於 PATH、可由 wrapper 呼叫，且在 Orca `Settings → Agents` 中已偵測並啟用。
+- Orca 的 usage panel 仍因舊 Gemini OAuth tracking 停用而把 Antigravity 額度標成 unavailable；這是額度偵測問題，不是代理連線或付費 entitlement 失效。
 - 其他 Orca provider 尚未完成帳號設定，因此不能宣稱已形成完整多模型執行池。
 
 ### 協作策略提案
@@ -42,7 +43,7 @@
 
 ### 下一步
 
-- 將現有 Antigravity CLI 接進 Orca、確認 `/usage` 額度畫面，再測試一次 Antigravity 先行、Codex 最終驗證的完整流程。
+- 從 Orca 啟動已啟用的 Antigravity agent，測試一次 Antigravity 先行、Codex 最終驗證的完整流程；額外追查 Orca 額度面板的錯誤狀態。
 
 ## Environment v0.2 — 2026-08-08
 
