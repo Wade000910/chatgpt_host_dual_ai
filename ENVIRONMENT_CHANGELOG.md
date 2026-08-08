@@ -13,7 +13,8 @@
 - Codex 與付費 Antigravity 是目前已驗證可用的主要代理。
 - 更正：使用者已有付費 Antigravity；CLI 已安裝、登入、位於 PATH、可由 wrapper 呼叫，且在 Orca `Settings → Agents` 中已偵測並啟用。
 - Orca 的 usage panel 仍因舊 Gemini OAuth tracking 停用而把 Antigravity 額度標成 unavailable；這是額度偵測問題，不是代理連線或付費 entitlement 失效。
-- 其他 Orca provider 尚未完成帳號設定，因此不能宣稱已形成完整多模型執行池。
+- GitHub Copilot Free 已在 GitHub 帳號啟用；Copilot CLI 1.0.78 已安裝、完成認證並通過最小唯讀回應測試。
+- Copilot 尚待接入 Orca worker 路由，因此目前不能宣稱已形成完整的自動多模型執行池。
 
 ### 協作策略提案
 
@@ -47,7 +48,14 @@
 
 ### 下一步
 
-- 從 Orca 啟動已啟用的 Antigravity agent，測試一次 Antigravity 先行、Codex 最終驗證的完整流程；額外追查 Orca 額度面板的錯誤狀態。
+- 將已驗證的 GitHub Copilot CLI 接入 Orca worker 路由，並以一次 Copilot-first 任務和既有 Antigravity-first 基準比較；Codex 僅做最終驗證。
+
+### GitHub Copilot Free 接入測試
+
+- GitHub 設定頁確認目前方案為 Copilot Free。
+- 以官方 npm 套件安裝 GitHub Copilot CLI 1.0.78；Windows PowerShell 執行原則會阻擋 `npm.ps1`，改用 `npm.cmd` 後安裝成功。
+- CLI 沿用有效 GitHub 認證，最小提示要求不讀檔、不呼叫工具、不修改內容，成功回覆 `COPILOT_OK`。
+- 測試結束後 Git 工作樹保持乾淨，未產生專案檔案變更。
 
 ### 首次 Antigravity-first 測試
 
