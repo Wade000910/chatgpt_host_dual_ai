@@ -19,12 +19,15 @@ This file preserves durable project context between Codex CLI sessions. It conta
 - Chrome Remote Desktop Host 151.0.7922.13 was installed and verified on 2026-08-08; the `chromoting` service is running with automatic startup.
 - Orca Mobile pairing with the user's iPhone was confirmed successful on 2026-08-08 by continuing the active Orca session from the phone.
 - Orca Relay was verified over the iPhone's 4G/5G connection: prompts, completion notifications, and response content arrive successfully. Mobile text rendering has a small delay that is currently acceptable to the user.
+- The next environment goal is efficient multi-AI collaboration with minimal token waste. As of 2026-08-08, Codex is the only authenticated agent inside Orca; the separate Antigravity wrapper works for targeted advisory calls, while other Orca providers are not yet configured.
 
 ## Decisions
 
 - Current priority is migrating the working environment from standalone Codex CLI into Orca. FCO implementation and the dual-AI collaboration workflow are deferred until that migration is understood and stabilized.
 - After the Orca migration is stable, the next environment objective is secure phone control of Orca agent sessions through the official Orca Mobile companion.
 - Orca Mobile is the selected primary phone-access path. Chrome Remote Desktop remains an optional full-Windows fallback; AC-powered automatic sleep is disabled to preserve Orca host availability, while battery sleep remains set to three minutes.
+- Proposed multi-AI policy: Codex remains the sole coordinator and verifier; use one agent by default, Orca workers only for genuinely independent parallel tasks, and Antigravity only for high-value architecture or review, or after repeated failed attempts.
+- Proposed context policy: never pass raw transcripts between agents; use a compact brief containing objective, constraints, target files or evidence, deliverable, and pass/fail criteria.
 - Current recommendation: begin with a Python offline analysis prototype, plus a very small Android device-performance probe if real-time operation may be essential.
 - Reconsider direct Android-first development only if live feedback is confirmed to be indispensable to FCO's user value, or if hard privacy, offline-operation, or deployment constraints require on-device processing.
 - Use feature branches and Pull Requests for GitHub delivery instead of pushing unreviewed work directly to `main`.
@@ -51,10 +54,11 @@ This file preserves durable project context between Codex CLI sessions. It conta
 - What are the team's Python/ML and Android/on-device deployment capabilities?
 - Should the workspace add an automated health check, a repeatable privacy-scan command, and validation for the dual-AI wrapper before FCO implementation begins?
 - Should the literal Markdown escape characters in `AGENTS.md` be normalized for readability and reliable parsing?
+- Which additional AI provider should be connected to Orca first, based on complementary capability and subscription cost rather than agent count?
 
 ## Next action
 
-- Inventory which standalone Codex CLI settings and data Orca already imports, then define a safe migration plan that excludes credentials, caches, locks, and live databases.
+- Run a small measured pilot comparing Codex-only work with one targeted Antigravity review before adding another paid AI provider.
 
 ## Memory rules
 
