@@ -45,6 +45,13 @@
 
 - 從 Orca 啟動已啟用的 Antigravity agent，測試一次 Antigravity 先行、Codex 最終驗證的完整流程；額外追查 Orca 額度面板的錯誤狀態。
 
+### 首次 Antigravity-first 測試
+
+- Antigravity 完成兩份策略文件的唯讀審查，耗時約 72 秒；Git 工作樹維持乾淨。
+- 第一次 Orca headless 啟動因缺少 command permission 而沒有產生結果；加入 Antigravity 的 permission bypass 旗標後可執行。Windows 下用 Orca `terminal send` 傳遞長 prompt 另有 quoting 問題，最終以已登入的 `agy` 直接完成測試。
+- 審查指出：付費 Antigravity 不應標成免費代理、目前尚未形成多個免費 provider pool、Codex 若參與每次前置調度仍會消耗額度，以及公開環境紀錄應進一步減少主機與遠端存取細節。
+- 建議下一實驗：由 Antigravity 負責初始調度與草稿，只把壓縮後的 diff brief 交給 Codex 做一次 pass/fail 驗證。
+
 ## Environment v0.2 — 2026-08-08
 
 ### 目標
