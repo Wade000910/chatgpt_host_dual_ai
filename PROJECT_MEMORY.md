@@ -24,6 +24,7 @@ This file preserves durable project context between Codex CLI sessions. It conta
 - GitHub Copilot Free is active for the user's GitHub account. GitHub Copilot CLI 1.0.78 is installed and authenticated; a minimal no-file-access prompt returned `COPILOT_OK`, and the Git worktree remained clean.
 - `tools/ask-copilot.ps1` is the repository's read-only Copilot worker entry point. It accepts plain or Base64-encoded UTF-8 prompts, disables project instructions, denies shell and write tools, and is designed for Orca terminal workers or direct one-shot delegation.
 - Orca successfully created a visible Copilot terminal worker and read back both `ORCA_COPILOT_WORKER_OK` and a Base64-delivered UTF-8 test result, `BASE64_WORKER_OK`. Visible worker terminals return to a shell prompt, so completion monitoring must read an expected marker instead of waiting for process exit.
+- A first tiny read-only comparison asked Copilot Free and Antigravity to compress the same three routing constraints into one Traditional Chinese sentence. Both preserved all constraints; Copilot took about 12.9 seconds and Antigravity about 10.5 seconds. This single sample verifies both paths but is not enough to rank providers.
 
 ## Decisions
 
@@ -65,7 +66,7 @@ This file preserves durable project context between Codex CLI sessions. It conta
 
 ## Next action
 
-- Run and measure one Copilot-first task through the new read-only wrapper, then compare it with the existing Antigravity-first baseline while Codex performs only final verification.
+- Repeat the Copilot-first versus Antigravity-first comparison on a small real code or documentation review task, recording output quality, latency, and Codex verification effort.
 
 ## Memory rules
 

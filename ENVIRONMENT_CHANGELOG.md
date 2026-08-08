@@ -62,6 +62,12 @@
 - Orca 可見 terminal 在 worker 命令完成後會回到 PowerShell 提示符，不會退出；監看不能使用 `exit`。`tui-idle` 可能早於模型輸出觸發，因此還要輪詢 `terminal read` 或 `terminal show` 的完成標記。
 - Orca 成功讀回壓縮 brief 的 `ORCA_COPILOT_WORKER_OK`，以及 Base64 中文 brief 的 `BASE64_WORKER_OK`；兩條 worker 路徑均未造成非預期專案修改。
 
+### 首次 Copilot／Antigravity 小型比較
+
+- 使用同一個唯讀 prompt，要求把「低風險任務免費優先、敏感資料不送外部代理、Codex 最終驗證」壓縮成一句繁體中文規則。
+- Copilot Free 約 12.9 秒完成；Antigravity 約 10.5 秒完成，兩者均完整保留三項限制且未修改檔案。
+- 此單一微型樣本只證明兩條調用與結果回收路徑正常，不足以判定長期速度或品質排名。
+
 ### 首次 Antigravity-first 測試
 
 - Antigravity 完成兩份策略文件的唯讀審查，耗時約 72 秒；Git 工作樹維持乾淨。
