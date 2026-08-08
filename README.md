@@ -12,6 +12,7 @@
 - 使用指定前綴啟動正式雙 AI 討論；大型一般任務也允許 Codex 按效益自動請 Antigravity 協助一次。
 - Codex 與 Antigravity 分別分析，再由 Codex 整理共同看法、分歧、結論與下一步。
 - 可透過 `tools/ask-copilot.ps1` 將精簡任務交給 Copilot Free；wrapper 禁止 shell 與寫檔工具，適合作為唯讀 worker。
+- 可透過 `tools/ask-openrouter.ps1` 將已去敏感的低風險任務送到 OpenRouter 免費模型池；OpenCode 使用 `plan` agent 並在暫存目錄執行。
 - Orca terminal worker 傳送含空白、中文或長 prompt 時使用 wrapper 的 `-PromptBase64`，避免 Windows 命令列 quoting。可見 terminal 完成後會回到提示符、不會退出；先等待 `tui-idle`，再輪詢 `terminal read` 或 `terminal show` 的完成標記。
 - CLI 底部狀態列顯示 Codex 模型、context、5 小時額度、每週額度與 Git 分支。
 - Codex 原生本機 Memories，協助跨對話回想。
@@ -113,6 +114,7 @@ tui.status_line=["model-with-reasoning","context-remaining","five-hour-limit","w
 | `start-codex.ps1` | 啟動 Codex、啟用 Memories，並預設續接最近對話 |
 | `tools/ask-antigravity.ps1` | 將最小必要問題送給 Antigravity，是正式雙 AI 與自動分工入口 |
 | `tools/ask-copilot.ps1` | 將低風險精簡任務送給 Copilot Free，並禁止 shell 與寫檔工具 |
+| `tools/ask-openrouter.ps1` | 透過 OpenCode 將已去敏感任務送給 OpenRouter 免費模型池 |
 | `tools/ask-gemini.ps1` | 舊 Gemini wrapper；Google 個人版已回報不再支援此 client，不是預設工作流 |
 | `.gitignore` | 避免提交環境檔、金鑰、憑證與暫存輸出 |
 | `AGENTS.backup.md` | 早期規則備份，僅供追溯 |
@@ -123,6 +125,7 @@ tui.status_line=["model-with-reasoning","context-remaining","five-hour-limit","w
 - Codex CLI，且已完成 `codex login`
 - Antigravity CLI，且已完成登入
 - GitHub Copilot CLI，且 Copilot Free 已啟用並完成登入
+- OpenCode CLI，且 OpenRouter API key 已安全保存在本機憑證儲存區
 - Git for Windows
 - GitHub CLI，且已完成 `gh auth login`
 

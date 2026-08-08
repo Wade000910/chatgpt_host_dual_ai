@@ -25,6 +25,8 @@ This file preserves durable project context between Codex CLI sessions. It conta
 - `tools/ask-copilot.ps1` is the repository's read-only Copilot worker entry point. It accepts plain or Base64-encoded UTF-8 prompts, disables project instructions, denies shell and write tools, and is designed for Orca terminal workers or direct one-shot delegation.
 - Orca successfully created a visible Copilot terminal worker and read back both `ORCA_COPILOT_WORKER_OK` and a Base64-delivered UTF-8 test result, `BASE64_WORKER_OK`. Visible worker terminals return to a shell prompt, so completion monitoring must read an expected marker instead of waiting for process exit.
 - A first tiny read-only comparison asked Copilot Free and Antigravity to compress the same three routing constraints into one Traditional Chinese sentence. Both preserved all constraints; Copilot took about 12.9 seconds and Antigravity about 10.5 seconds. This single sample verifies both paths but is not enough to rank providers.
+- OpenCode 1.18.15 is installed and authenticated to OpenRouter using a locally stored API key. The `openrouter/free` route returned `OPENROUTER_FREE_OK` in about 5.4 seconds through OpenCode's plan agent, with no project changes.
+- `tools/ask-openrouter.ps1` is the read-only OpenRouter worker entry point. It supports plain or Base64 UTF-8 prompts, forces `openrouter/free`, uses OpenCode's plan agent, and runs from the system temporary directory.
 
 ## Decisions
 
@@ -62,11 +64,11 @@ This file preserves durable project context between Codex CLI sessions. It conta
 - Should the literal Markdown escape characters in `AGENTS.md` be normalized for readability and reliable parsing?
 - How does the Copilot-first worker compare with Antigravity-first on completion time, quota cost, and Codex verification effort?
 - Antigravity CLI is Google's successor to Gemini CLI for individual free, Google AI Pro, and Ultra accounts as of 2026-06-18; it must not be counted as a separate quota pool from Gemini CLI. Grok remains an experiment candidate because its official free coding quota is not clearly documented; Kimi Code and MiniMax are not stable free resources under their current official plans.
-- Free-resource priority: GitHub Copilot Free first; OpenRouter free models through OpenCode second for public or sanitized low-risk tasks; Grok Free as an experimental source; local models after hardware validation. Claude Code has no standalone free CLI entitlement, and Qwen OAuth free access ended on 2026-04-15.
+- Free-resource priority: GitHub Copilot Free first; the now-verified OpenRouter free pool through OpenCode second for public or sanitized low-risk tasks; Grok Free as an experimental source; local models after hardware validation. Claude Code has no standalone free CLI entitlement, and Qwen OAuth free access ended on 2026-04-15.
 
 ## Next action
 
-- Repeat the Copilot-first versus Antigravity-first comparison on a small real code or documentation review task, recording output quality, latency, and Codex verification effort.
+- Compare Copilot Free, OpenRouter Free, and Antigravity on one small sanitized review task, recording output quality, latency, and Codex verification effort; then evaluate Grok as the next experimental provider.
 
 ## Memory rules
 

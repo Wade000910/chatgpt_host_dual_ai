@@ -68,6 +68,14 @@
 - Copilot Free 約 12.9 秒完成；Antigravity 約 10.5 秒完成，兩者均完整保留三項限制且未修改檔案。
 - 此單一微型樣本只證明兩條調用與結果回收路徑正常，不足以判定長期速度或品質排名。
 
+### OpenRouter Free／OpenCode 接入
+
+- 安裝 OpenCode CLI 1.18.15，並以 OpenRouter 官方 API key 完成本機 provider 認證；憑證不存入 repository。
+- Windows PowerShell 會阻擋 npm 的 `opencode.ps1` shim，實際調用固定使用 `opencode.cmd`。
+- 第一次終端貼上流程受中文輸入法與焦點影響，錯誤文字被保存成憑證；測試由無效 Authorization header 立即發現。移除錯誤項目後，以剪貼簿內容的前綴、單行與長度驗證重新登入，未輸出 key。
+- 使用 OpenCode `plan` agent 與 `openrouter/free` 在暫存目錄完成唯讀測試，約 5.4 秒回覆 `OPENROUTER_FREE_OK`，Git 工作樹保持乾淨。
+- 新增 `tools/ask-openrouter.ps1` 作為已去敏感、低風險任務的免費 worker 入口，並支援 Base64 UTF-8 brief。
+
 ### 首次 Antigravity-first 測試
 
 - Antigravity 完成兩份策略文件的唯讀審查，耗時約 72 秒；Git 工作樹維持乾淨。
