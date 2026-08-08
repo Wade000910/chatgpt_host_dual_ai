@@ -1,6 +1,6 @@
 # FCO Project Memory
 
-Last updated: 2026-08-08
+Last updated: 2026-08-09
 
 ## Purpose
 
@@ -27,6 +27,7 @@ This file preserves durable project context between Codex CLI sessions. It conta
 - A first tiny read-only comparison asked Copilot Free and Antigravity to compress the same three routing constraints into one Traditional Chinese sentence. Both preserved all constraints; Copilot took about 12.9 seconds and Antigravity about 10.5 seconds. This single sample verifies both paths but is not enough to rank providers.
 - OpenCode 1.18.15 is installed and authenticated to OpenRouter using a locally stored API key. The `openrouter/free` route returned `OPENROUTER_FREE_OK` in about 5.4 seconds through OpenCode's plan agent, with no project changes.
 - `tools/ask-openrouter.ps1` is the read-only OpenRouter worker entry point. It supports plain or Base64 UTF-8 prompts, forces `openrouter/free`, uses OpenCode's plan agent, and runs from the system temporary directory.
+- Environment v0.4 reorganizes collaborator-facing documentation into `README.md`, `docs/COLLABORATION_WORKFLOW.md`, `VERSION_HISTORY.md`, and `ENVIRONMENT_CHANGELOG.md`; each future environment version must update the version history and implementation changelog.
 
 ## Decisions
 
