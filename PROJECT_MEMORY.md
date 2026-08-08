@@ -58,6 +58,7 @@ This file preserves durable project context between Codex CLI sessions. It conta
 - Should the literal Markdown escape characters in `AGENTS.md` be normalized for readability and reliable parsing?
 - Which additional AI provider should be connected to Orca first, based on complementary capability and subscription cost rather than agent count?
 - Antigravity CLI is Google's successor to Gemini CLI for individual free, Google AI Pro, and Ultra accounts as of 2026-06-18; it must not be counted as a separate quota pool from Gemini CLI. Grok remains an experiment candidate because its official free coding quota is not clearly documented; Kimi Code and MiniMax are not stable free resources under their current official plans.
+- Free-resource priority: GitHub Copilot Free first; OpenRouter free models through OpenCode second for public or sanitized low-risk tasks; Grok Free as an experimental source; local models after hardware validation. Claude Code has no standalone free CLI entitlement, and Qwen OAuth free access ended on 2026-04-15.
 
 ## Next action
 

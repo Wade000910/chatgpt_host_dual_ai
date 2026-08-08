@@ -40,6 +40,10 @@
 - Grok 官方標示可免費開始，但 coding CLI 的可依賴免費額度未明，僅列為實驗候選。
 - Kimi Code 官方目前屬於會員權益；MiniMax Coding Plan 以付費方案為主，兩者不列入穩定免費池。
 - 免費不代表適合傳送所有資料；每個 provider 仍須遵守最小上下文與公開 repository 的隱私規則。
+- GitHub Copilot Free 是下一個優先來源：現有 GitHub 帳號可申請，官方包含 Copilot CLI 與 agent mode，且不需信用卡。
+- OpenRouter 免費模型可透過 OpenCode 作為第二層低風險 worker，但免費額度低、供應不穩，且必須限制為公開或已去敏感內容。
+- Claude Code 沒有獨立免費 CLI entitlement；Qwen OAuth 免費層已停止。兩者不列入免費申請清單。
+- 本地模型可提供真正零雲端額度的背景 worker，但須先確認 GPU、RAM 與可接受的速度。
 
 ### 下一步
 
