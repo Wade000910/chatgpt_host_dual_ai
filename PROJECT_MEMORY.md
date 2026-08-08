@@ -1,6 +1,6 @@
 # FCO Project Memory
 
-Last updated: 2026-08-03
+Last updated: 2026-08-08
 
 ## Purpose
 
@@ -14,9 +14,17 @@ This file preserves durable project context between Codex CLI sessions. It conta
 - Git for Windows 2.55.0 and GitHub CLI 2.94.0 were installed on 2026-08-03.
 - GitHub CLI is authorized as `Wade000910`.
 - The public remote repository is `https://github.com/Wade000910/chatgpt_host_dual_ai`.
+- The environment uses selected skills from `mattpocock/skills`; `grill-me` and `grilling` are currently visible in both the standalone Codex and Orca runtimes.
+- The host currently runs Windows Home, cannot act as a supported Microsoft RDP host, and had no detected Tailscale, RustDesk, AnyDesk, or TeamViewer installation during the 2026-08-08 audit.
+- Chrome Remote Desktop Host 151.0.7922.13 was installed and verified on 2026-08-08; the `chromoting` service is running with automatic startup.
+- Orca Mobile pairing with the user's iPhone was confirmed successful on 2026-08-08 by continuing the active Orca session from the phone.
+- Orca Relay was verified over the iPhone's 4G/5G connection: prompts, completion notifications, and response content arrive successfully. Mobile text rendering has a small delay that is currently acceptable to the user.
 
 ## Decisions
 
+- Current priority is migrating the working environment from standalone Codex CLI into Orca. FCO implementation and the dual-AI collaboration workflow are deferred until that migration is understood and stabilized.
+- After the Orca migration is stable, the next environment objective is secure phone control of Orca agent sessions through the official Orca Mobile companion.
+- Orca Mobile is the selected primary phone-access path. Chrome Remote Desktop remains an optional full-Windows fallback; AC-powered automatic sleep is disabled to preserve Orca host availability, while battery sleep remains set to three minutes.
 - Current recommendation: begin with a Python offline analysis prototype, plus a very small Android device-performance probe if real-time operation may be essential.
 - Reconsider direct Android-first development only if live feedback is confirmed to be indispensable to FCO's user value, or if hard privacy, offline-operation, or deployment constraints require on-device processing.
 - Use feature branches and Pull Requests for GitHub delivery instead of pushing unreviewed work directly to `main`.
@@ -25,6 +33,9 @@ This file preserves durable project context between Codex CLI sessions. It conta
 - Use Codex as the primary controller and final editor/verifier. Codex may automatically delegate substantial independent analysis, drafting, test strategy, or review work to Antigravity CLI, normally once and never more than twice per user request.
 - Show Codex model, remaining context, five-hour usage, weekly usage, and Git branch in the CLI footer. Antigravity CLI does not currently expose a reliable quota value for the Codex footer.
 - The installed standalone Gemini CLI 0.46.0 reports that Gemini Code Assist for individuals no longer supports this client and directs users to Antigravity, so it is not used as the active auxiliary workflow.
+- Environment audit on 2026-08-08 found a clean `main` branch synchronized with `origin/main`; all three PowerShell scripts parse without syntax errors.
+- The tracked Markdown files are valid UTF-8. Windows PowerShell 5.1's default `Get-Content` decoding can display their Chinese text as mojibake unless `-Encoding utf8` is used.
+- Codex CLI 0.147.0 is available through `codex.cmd`, and Antigravity CLI 1.1.11 is present. In a normal PowerShell session, the default execution policy can block the npm `codex.ps1` shim; the documented launcher uses `-ExecutionPolicy Bypass`.
 
 ## Reasons
 
@@ -38,10 +49,12 @@ This file preserves durable project context between Codex CLI sessions. It conta
 - Which Android device classes must be supported?
 - Must video remain entirely on the device?
 - What are the team's Python/ML and Android/on-device deployment capabilities?
+- Should the workspace add an automated health check, a repeatable privacy-scan command, and validation for the dual-AI wrapper before FCO implementation begins?
+- Should the literal Markdown escape characters in `AGENTS.md` be normalized for readability and reliable parsing?
 
 ## Next action
 
-- Define a one-week Python baseline experiment using 10-20 representative videos and explicit success thresholds before committing to the Android architecture.
+- Inventory which standalone Codex CLI settings and data Orca already imports, then define a safe migration plan that excludes credentials, caches, locks, and live databases.
 
 ## Memory rules
 

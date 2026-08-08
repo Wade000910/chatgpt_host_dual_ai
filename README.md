@@ -4,6 +4,8 @@
 
 目前 repository 也保存 FCO 影片分析專案的決策脈絡，讓不同 CLI 工作階段可以延續討論，不必每次重新說明背景。
 
+工作環境的版本、遷移進度、卡關與解法記錄在 [`ENVIRONMENT_CHANGELOG.md`](ENVIRONMENT_CHANGELOG.md)。
+
 ## 目前具備的功能
 
 - Codex CLI 作為唯一的主要操作介面。
