@@ -14,7 +14,8 @@
 - 更正：使用者已有付費 Antigravity；CLI 已安裝、登入、位於 PATH、可由 wrapper 呼叫，且在 Orca `Settings → Agents` 中已偵測並啟用。
 - Orca 的 usage panel 仍因舊 Gemini OAuth tracking 停用而把 Antigravity 額度標成 unavailable；這是額度偵測問題，不是代理連線或付費 entitlement 失效。
 - GitHub Copilot Free 已在 GitHub 帳號啟用；Copilot CLI 1.0.78 已安裝、完成認證並通過最小唯讀回應測試。
-- Copilot 尚待接入 Orca worker 路由，因此目前不能宣稱已形成完整的自動多模型執行池。
+- Copilot 已可由 Orca 建立可見 terminal worker，但任務分類與額度感知路由仍由 Codex 依規則決定，尚未形成完全自動的 provider router。
+- 已新增 `tools/ask-copilot.ps1` 作為 Copilot Free 的唯讀 worker 入口；它禁止 shell 與寫檔工具，可由 Orca terminal worker 或 Codex 一次性調用。
 
 ### 協作策略提案
 
@@ -56,6 +57,10 @@
 - 以官方 npm 套件安裝 GitHub Copilot CLI 1.0.78；Windows PowerShell 執行原則會阻擋 `npm.ps1`，改用 `npm.cmd` 後安裝成功。
 - CLI 沿用有效 GitHub 認證，最小提示要求不讀檔、不呼叫工具、不修改內容，成功回覆 `COPILOT_OK`。
 - 測試結束後 Git 工作樹保持乾淨，未產生專案檔案變更。
+- 接入方式採用 Orca terminal worker，而非假設 Orca 已提供 Copilot 原生 provider；目前 Orca 原生 Agents 清單只確認 Codex 與 Antigravity。
+- 第一次 Orca worker 建立因含空白 prompt 的 Windows quoting 失敗；改用壓縮 prompt 後成功回覆。wrapper 隨後加入 `-PromptBase64`，作為中文與長 brief 的穩定傳遞方式。
+- Orca 可見 terminal 在 worker 命令完成後會回到 PowerShell 提示符，不會退出；監看不能使用 `exit`。`tui-idle` 可能早於模型輸出觸發，因此還要輪詢 `terminal read` 或 `terminal show` 的完成標記。
+- Orca 成功讀回壓縮 brief 的 `ORCA_COPILOT_WORKER_OK`，以及 Base64 中文 brief 的 `BASE64_WORKER_OK`；兩條 worker 路徑均未造成非預期專案修改。
 
 ### 首次 Antigravity-first 測試
 

@@ -1,6 +1,6 @@
-# Codex 主持的雙 AI 工作區
+# Codex 主持的多 AI 工作區
 
-這是一套在 Windows 上運作的 Codex CLI 工作區。Codex 是主要助理、討論主持人與最終整合者；Google Antigravity CLI 提供獨立分析、草稿與審查，最後仍由 Codex 修改、驗證並交付。
+這是一套在 Windows 與 Orca 上運作的多 AI 工作區。Codex 是主要助理、討論主持人與最終整合者；Google Antigravity CLI 提供深度分析與審查，GitHub Copilot Free CLI 提供低風險的免費優先草稿與獨立檢查，最後仍由 Codex 修改、驗證並交付。
 
 目前 repository 也保存 FCO 影片分析專案的決策脈絡，讓不同 CLI 工作階段可以延續討論，不必每次重新說明背景。
 
@@ -11,6 +11,8 @@
 - Codex CLI 作為唯一的主要操作介面。
 - 使用指定前綴啟動正式雙 AI 討論；大型一般任務也允許 Codex 按效益自動請 Antigravity 協助一次。
 - Codex 與 Antigravity 分別分析，再由 Codex 整理共同看法、分歧、結論與下一步。
+- 可透過 `tools/ask-copilot.ps1` 將精簡任務交給 Copilot Free；wrapper 禁止 shell 與寫檔工具，適合作為唯讀 worker。
+- Orca terminal worker 傳送含空白、中文或長 prompt 時使用 wrapper 的 `-PromptBase64`，避免 Windows 命令列 quoting。可見 terminal 完成後會回到提示符、不會退出；先等待 `tui-idle`，再輪詢 `terminal read` 或 `terminal show` 的完成標記。
 - CLI 底部狀態列顯示 Codex 模型、context、5 小時額度、每週額度與 Git 分支。
 - Codex 原生本機 Memories，協助跨對話回想。
 - `PROJECT_MEMORY.md` 保存明確的專案事實、決策、理由、未決問題與下一步。
@@ -110,6 +112,7 @@ tui.status_line=["model-with-reasoning","context-remaining","five-hour-limit","w
 | `PROJECT_MEMORY.md` | FCO 與本工作區的持久專案脈絡 |
 | `start-codex.ps1` | 啟動 Codex、啟用 Memories，並預設續接最近對話 |
 | `tools/ask-antigravity.ps1` | 將最小必要問題送給 Antigravity，是正式雙 AI 與自動分工入口 |
+| `tools/ask-copilot.ps1` | 將低風險精簡任務送給 Copilot Free，並禁止 shell 與寫檔工具 |
 | `tools/ask-gemini.ps1` | 舊 Gemini wrapper；Google 個人版已回報不再支援此 client，不是預設工作流 |
 | `.gitignore` | 避免提交環境檔、金鑰、憑證與暫存輸出 |
 | `AGENTS.backup.md` | 早期規則備份，僅供追溯 |
@@ -119,6 +122,7 @@ tui.status_line=["model-with-reasoning","context-remaining","five-hour-limit","w
 - Windows PowerShell
 - Codex CLI，且已完成 `codex login`
 - Antigravity CLI，且已完成登入
+- GitHub Copilot CLI，且 Copilot Free 已啟用並完成登入
 - Git for Windows
 - GitHub CLI，且已完成 `gh auth login`
 

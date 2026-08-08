@@ -19,9 +19,11 @@ This file preserves durable project context between Codex CLI sessions. It conta
 - Chrome Remote Desktop Host 151.0.7922.13 was installed and verified on 2026-08-08; the `chromoting` service is running with automatic startup.
 - Orca Mobile pairing with the user's iPhone was confirmed successful on 2026-08-08 by continuing the active Orca session from the phone.
 - Orca Relay was verified over the iPhone's 4G/5G connection: prompts, completion notifications, and response content arrive successfully. Mobile text rendering has a small delay that is currently acceptable to the user.
-- The next environment goal is efficient multi-AI collaboration with minimal token waste. As of 2026-08-08, Codex, paid Antigravity, and GitHub Copilot Free are callable; Copilot is not yet wired into Orca worker routing.
+- The next environment goal is efficient multi-AI collaboration with minimal token waste. As of 2026-08-08, Codex, paid Antigravity, and GitHub Copilot Free are callable; Copilot is available through an Orca terminal-worker wrapper, while automatic provider routing remains future work.
 - Correction: the user has a paid Antigravity account. Antigravity CLI is installed, authenticated, callable through the wrapper, detected on `PATH`, and enabled in Orca's Agents settings. Orca's usage panel incorrectly reports it as unavailable because legacy Gemini OAuth tracking is disabled; this does not prevent Antigravity execution.
 - GitHub Copilot Free is active for the user's GitHub account. GitHub Copilot CLI 1.0.78 is installed and authenticated; a minimal no-file-access prompt returned `COPILOT_OK`, and the Git worktree remained clean.
+- `tools/ask-copilot.ps1` is the repository's read-only Copilot worker entry point. It accepts plain or Base64-encoded UTF-8 prompts, disables project instructions, denies shell and write tools, and is designed for Orca terminal workers or direct one-shot delegation.
+- Orca successfully created a visible Copilot terminal worker and read back both `ORCA_COPILOT_WORKER_OK` and a Base64-delivered UTF-8 test result, `BASE64_WORKER_OK`. Visible worker terminals return to a shell prompt, so completion monitoring must read an expected marker instead of waiting for process exit.
 
 ## Decisions
 
@@ -57,13 +59,13 @@ This file preserves durable project context between Codex CLI sessions. It conta
 - What are the team's Python/ML and Android/on-device deployment capabilities?
 - Should the workspace add an automated health check, a repeatable privacy-scan command, and validation for the dual-AI wrapper before FCO implementation begins?
 - Should the literal Markdown escape characters in `AGENTS.md` be normalized for readability and reliable parsing?
-- How should GitHub Copilot CLI be exposed as an Orca worker and measured against Antigravity before adding another provider?
+- How does the Copilot-first worker compare with Antigravity-first on completion time, quota cost, and Codex verification effort?
 - Antigravity CLI is Google's successor to Gemini CLI for individual free, Google AI Pro, and Ultra accounts as of 2026-06-18; it must not be counted as a separate quota pool from Gemini CLI. Grok remains an experiment candidate because its official free coding quota is not clearly documented; Kimi Code and MiniMax are not stable free resources under their current official plans.
 - Free-resource priority: GitHub Copilot Free first; OpenRouter free models through OpenCode second for public or sanitized low-risk tasks; Grok Free as an experimental source; local models after hardware validation. Claude Code has no standalone free CLI entitlement, and Qwen OAuth free access ended on 2026-04-15.
 
 ## Next action
 
-- Connect the verified GitHub Copilot CLI as an Orca worker, then compare one Copilot-first task with the existing Antigravity-first baseline while Codex performs only final verification.
+- Run and measure one Copilot-first task through the new read-only wrapper, then compare it with the existing Antigravity-first baseline while Codex performs only final verification.
 
 ## Memory rules
 
