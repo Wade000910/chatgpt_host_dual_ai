@@ -56,11 +56,11 @@ This file preserves durable project context between Codex CLI sessions. It conta
 - Should the workspace add an automated health check, a repeatable privacy-scan command, and validation for the dual-AI wrapper before FCO implementation begins?
 - Should the literal Markdown escape characters in `AGENTS.md` be normalized for readability and reliable parsing?
 - Which additional AI provider should be connected to Orca first, based on complementary capability and subscription cost rather than agent count?
-- Gemini CLI is the first free-tier integration candidate. Grok is an experiment candidate because its official free coding quota is not clearly documented; Kimi Code and MiniMax should not be treated as stable free resources under their current official plans.
+- Antigravity CLI is Google's successor to Gemini CLI for individual free, Google AI Pro, and Ultra accounts as of 2026-06-18; it must not be counted as a separate quota pool from Gemini CLI. Grok remains an experiment candidate because its official free coding quota is not clearly documented; Kimi Code and MiniMax are not stable free resources under their current official plans.
 
 ## Next action
 
-- Connect and verify Gemini's free Google-account tier in Orca, then measure a free-agent-first task with Codex used only for final verification.
+- Integrate the already-working Antigravity CLI into Orca as the Google free-first worker, confirm its `/usage` quota display, then measure one task with Codex used only for final verification.
 
 ## Memory rules
 

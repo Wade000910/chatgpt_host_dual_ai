@@ -34,14 +34,15 @@
 
 ### 免費資源盤點（2026-08-08）
 
-- Gemini CLI 的 Google 個人帳號免費層是第一接入候選；官方目前列出每日與每分鐘免費 request 額度。
+- Antigravity CLI 是 Google 自 2026-06-18 起提供給 Gemini CLI 個人免費、Google AI Pro 與 Ultra 使用者的正式後繼工具；兩者不得重複計算成兩份額度。
+- Antigravity 使用 Gemini 模型，但產品層包含新的 agent runtime、subagents、skills、hooks 與 plugins；現有 Antigravity wrapper 是 Google 免費優先池的接入點。
 - Grok 官方標示可免費開始，但 coding CLI 的可依賴免費額度未明，僅列為實驗候選。
 - Kimi Code 官方目前屬於會員權益；MiniMax Coding Plan 以付費方案為主，兩者不列入穩定免費池。
 - 免費不代表適合傳送所有資料；每個 provider 仍須遵守最小上下文與公開 repository 的隱私規則。
 
 ### 下一步
 
-- 先接入並驗證 Gemini 免費 Google 帳號，再測試一次免費代理先行、Codex 最終驗證的完整流程。
+- 將現有 Antigravity CLI 接進 Orca、確認 `/usage` 額度畫面，再測試一次 Antigravity 先行、Codex 最終驗證的完整流程。
 
 ## Environment v0.2 — 2026-08-08
 
