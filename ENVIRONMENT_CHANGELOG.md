@@ -2,6 +2,31 @@
 
 這份文件按版本記錄實作過程、卡關、原因與解法。版本摘要見 `VERSION_HISTORY.md`；目前狀態與下一步見 `PROJECT_MEMORY.md`。任何憑證、配對碼、私人資料與不必要的本機路徑都不得出現在這裡。
 
+## v0.6 — 本地 Qwen／Ollama worker
+
+### 完成
+
+- 硬體盤點：NVIDIA RTX 4060 Laptop GPU 具 8GB VRAM、system RAM 16GB、磁碟空間足以保存單一 4B／9B 量化模型。
+- 安裝 Ollama 0.32.6，下載 `qwen3.5:4b` 約 3.4GB。
+- 模型以 8K context 運行並確認 100% GPU offload。
+- 首次 thinking 開啟測試約 38 秒，輸出前消耗 1,847 個 thinking tokens，生成速度約 61 tokens/s。
+- 關閉 thinking 後測試約 2.4 秒、7 output tokens、約 65 tokens/s，回覆 `LOCAL_QWEN_FAST_OK`。
+- 新增 `tools/ask-local-qwen.ps1`，固定 localhost、8K context、temperature 0 與 thinking 關閉。
+- wrapper 首次 Base64 中文固定字串測試未遵守格式而回覆澄清問題；加入嚴格的固定 system instruction 後，約 3.3 秒正確回覆 `LOCAL_WRAPPER_OK`。
+
+卡關與解法：
+
+| 狀況 | 原因 | 解法 |
+|---|---|---|
+| Ollama installer 五分鐘才完成下載 | 官方安裝包下載進度被工具輸出延後顯示 | 等待下載完成；確認 installer 已建立背景程序與 CLI |
+| 新安裝 CLI 未立即出現在目前 PATH | 現有 Orca／PowerShell session 未重新載入 user PATH | 使用官方安裝位置驗證；新 session 會取得 PATH |
+| 簡單固定回應仍延遲 38 秒 | Qwen thinking 預設開啟 | localhost API 設定 `think=false` |
+
+已知限制：
+
+- 4B 模型適合短任務，不應取代 Codex 的複雜實作與最終驗證。
+- 9B 模型約 6.6GB，雖可嘗試但 context KV cache 可能使 8GB VRAM 緊張，因此尚未下載。
+
 ## v0.5 — Grok Build 免費試用
 
 ### 完成
