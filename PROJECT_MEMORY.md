@@ -28,6 +28,8 @@ This file preserves durable project context between Codex CLI sessions. It conta
 - OpenCode 1.18.15 is installed and authenticated to OpenRouter using a locally stored API key. The `openrouter/free` route returned `OPENROUTER_FREE_OK` in about 5.4 seconds through OpenCode's plan agent, with no project changes.
 - `tools/ask-openrouter.ps1` is the read-only OpenRouter worker entry point. It supports plain or Base64 UTF-8 prompts, forces `openrouter/free`, uses OpenCode's plan agent, and runs from the system temporary directory.
 - Environment v0.4 reorganizes collaborator-facing documentation into `README.md`, `docs/COLLABORATION_WORKFLOW.md`, `VERSION_HISTORY.md`, and `ENVIRONMENT_CHANGELOG.md`; each future environment version must update the version history and implementation changelog.
+- Grok Build 1.0.0 is installed and authenticated through xAI OAuth without an API key or API billing. A restricted headless test returned `GROK_FREE_OK` in about 6.5 seconds with no project changes. The official product says available to try for free but does not guarantee permanent quota.
+- `tools/ask-grok.ps1` is the experimental Grok worker entry point. It supports plain or Base64 UTF-8 prompts, uses plan permission mode from the system temporary directory, disables subagents and web search, and limits execution to one turn.
 
 ## Decisions
 
@@ -64,12 +66,12 @@ This file preserves durable project context between Codex CLI sessions. It conta
 - Should the workspace add an automated health check, a repeatable privacy-scan command, and validation for the dual-AI wrapper before FCO implementation begins?
 - Should the literal Markdown escape characters in `AGENTS.md` be normalized for readability and reliable parsing?
 - How does the Copilot-first worker compare with Antigravity-first on completion time, quota cost, and Codex verification effort?
-- Antigravity CLI is Google's successor to Gemini CLI for individual free, Google AI Pro, and Ultra accounts as of 2026-06-18; it must not be counted as a separate quota pool from Gemini CLI. Grok remains an experiment candidate because its official free coding quota is not clearly documented; Kimi Code and MiniMax are not stable free resources under their current official plans.
-- Free-resource priority: GitHub Copilot Free first; the now-verified OpenRouter free pool through OpenCode second for public or sanitized low-risk tasks; Grok Free as an experimental source; local models after hardware validation. Claude Code has no standalone free CLI entitlement, and Qwen OAuth free access ended on 2026-04-15.
+- Antigravity CLI is Google's successor to Gemini CLI for individual free, Google AI Pro, and Ultra accounts as of 2026-06-18; it must not be counted as a separate quota pool from Gemini CLI. Grok Build is now a verified experimental free-trial worker, but its quota is not guaranteed; Kimi Code and MiniMax are not stable free resources under their current official plans.
+- Free-resource priority: GitHub Copilot Free first; OpenRouter Free through OpenCode second for public or sanitized low-risk tasks; Grok Build free trial as an experimental single-turn source; local models after hardware validation. Claude Code has no standalone free CLI entitlement, and Qwen OAuth free access ended on 2026-04-15.
 
 ## Next action
 
-- Checkpoint: environment expansion is intentionally paused after verifying Copilot Free and OpenRouter Free alongside paid Antigravity. On resume, first compare all three on one small sanitized review task; only then evaluate Grok as the next experimental provider.
+- Compare Copilot Free, OpenRouter Free, Grok Build, and paid Antigravity on one small sanitized review task; then validate local hardware for a zero-cloud-quota background worker.
 
 ## Memory rules
 

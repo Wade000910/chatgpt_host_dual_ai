@@ -2,6 +2,29 @@
 
 這份文件按版本記錄實作過程、卡關、原因與解法。版本摘要見 `VERSION_HISTORY.md`；目前狀態與下一步見 `PROJECT_MEMORY.md`。任何憑證、配對碼、私人資料與不必要的本機路徑都不得出現在這裡。
 
+## v0.5 — Grok Build 免費試用
+
+### 完成
+
+- 官方產品頁確認 Grok Build 目前標示 available to try for free；消費者 OAuth entitlement 與付費 xAI API 分開處理。
+- 使用 xAI 官方 installer 安裝 Grok Build 1.0.0。
+- 官方 OAuth 登入成功，沒有建立 xAI API key、購買 credits 或開啟 monthly billing。
+- 以 plan mode、暫存目錄、停用 subagents／web search、最多一回合完成 headless 測試，約 6.5 秒回覆 `GROK_FREE_OK`。
+- 新增 `tools/ask-grok.ps1`，支援純文字與 Base64 UTF-8 brief。
+
+卡關與解法：
+
+| 狀況 | 原因 | 解法 |
+|---|---|---|
+| 官方 installer 第一次沒有執行 | Git Bash 已安裝但不在 PATH | 使用 Git for Windows 的標準 `bash.exe` 路徑執行官方腳本 |
+| installer 只更新 Bash PATH | Windows 與 PowerShell 不讀 `.bashrc` | 將官方 Grok bin 目錄加入使用者 PATH |
+| Orca 建立 OAuth terminal 等待 handle 逾時 | terminal adoption 沒有在期限內完成 | 在背景啟動 `grok login --oauth`，由瀏覽器完成本機 callback |
+
+已知限制：
+
+- 免費試用額度未由官方承諾為固定或永久資源。
+- xAI API 明確按 token 計費，本環境未接入 API billing。
+
 ## v0.4 — 文件與 checkpoint
 
 ### 完成

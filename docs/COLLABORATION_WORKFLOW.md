@@ -19,6 +19,7 @@ Codex 先讀取 `PROJECT_MEMORY.md`，再確認：
 | 簡單問答、小修改 | Codex | 委派成本高於收益 |
 | 低風險短草稿、格式整理、獨立檢查 | Copilot Free | 保留 Codex 額度；wrapper 禁止 shell／write |
 | 公開或已去敏感的低風險分析 | OpenRouter Free | 使用免費模型池；允許供應與品質波動 |
+| 低風險單回合、需要另一模型觀點 | Grok Build 免費試用 | OAuth 可用；免費 entitlement 可能調整 |
 | 架構比較、重大風險、第二意見 | Antigravity | 適合深度分析與審查 |
 | `雙AI：`／`雙 AI：`／`Dual AI:` | Codex + Antigravity | repository 的正式雙 AI 規則 |
 | 修改、測試、隱私掃描、commit、push | Codex | 最終責任不可委派 |
@@ -70,6 +71,17 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\tools\ask-antigravity.
 - 用於高價值分析或正式雙 AI 流程。
 - 不允許直接修改 repository。
 - 一般每個使用者請求最多一次；重大未解分歧才允許第二次。
+
+### Grok Build
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\tools\ask-grok.ps1 -Prompt "<PROMPT>"
+```
+
+- 使用 xAI 官方 OAuth，不使用 API key 或 API billing。
+- wrapper 固定使用 plan permission mode、停用 subagents 與 web search，並限制最多一回合。
+- 在系統暫存目錄執行，支援 `-PromptBase64`。
+- 官方標示 available to try for free，但沒有保證永久額度；路由時視為實驗性免費資源。
 
 ## 5. Orca terminal worker
 

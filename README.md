@@ -2,7 +2,7 @@
 
 這個公開 repository 保存一套已實際驗證的 Windows／Orca 多 AI 協作環境。Codex 負責理解需求、分配工作、修改檔案與最終驗證；其他 AI 只接收最小必要 brief，協助唯讀分析、草稿或審查。
 
-目前環境擴充暫停在 **Environment v0.4**。手機連線、Antigravity、GitHub Copilot Free 與 OpenRouter Free 都已驗證；Grok 尚未接入。
+目前版本是 **Environment v0.5**。手機連線、Antigravity、GitHub Copilot Free、OpenRouter Free 與 Grok Build 免費試用都已驗證。
 
 ## 目前狀態
 
@@ -13,7 +13,7 @@
 | GitHub Copilot Free | 已驗證 | 免費優先的低風險草稿與獨立檢查 | wrapper 禁止 shell／write |
 | OpenRouter Free／OpenCode | 已驗證 | 公開或已去敏感任務的免費模型池 | 使用 plan agent 與暫存目錄 |
 | Orca Mobile | 已驗證 | iPhone 經行動網路延續桌面 Orca 工作階段 | 不適用 |
-| Grok | 尚未接入 | 下一個實驗候選 | 不適用 |
+| Grok Build | 已驗證，免費試用 | 一回合的低風險獨立分析 | plan mode、停用 subagents／web search |
 
 ## 核心流程
 
@@ -23,6 +23,7 @@
 Codex 判斷敏感度、風險、任務大小與是否值得委派
   ├─ 低風險、短草稿／檢查 → Copilot Free
   ├─ 公開或已去敏感、可容忍供應波動 → OpenRouter Free
+  ├─ 低風險單回合、需要另一模型觀點 → Grok Build 免費試用
   ├─ 架構、重大風險、正式雙 AI 觸發 → Antigravity
   └─ 修改、測試、安全檢查、最終答案 → Codex
 ```
@@ -46,6 +47,7 @@ Codex 判斷敏感度、風險、任務大小與是否值得委派
    ```powershell
    powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\tools\ask-copilot.ps1 -Prompt "<PROMPT>"
    powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\tools\ask-openrouter.ps1 -Prompt "<SANITIZED_PROMPT>"
+   powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\tools\ask-grok.ps1 -Prompt "<PROMPT>"
    powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\tools\ask-antigravity.ps1 -Prompt "<PROMPT>"
    ```
 
@@ -72,6 +74,7 @@ Windows PowerShell 可能阻擋 npm 的 `.ps1` shim；腳本內固定使用 `.cm
 | `tools/ask-antigravity.ps1` | Antigravity 唯讀分析入口 |
 | `tools/ask-copilot.ps1` | Copilot Free 唯讀 worker；禁止 shell 與 write |
 | `tools/ask-openrouter.ps1` | OpenRouter Free worker；使用 OpenCode plan agent |
+| `tools/ask-grok.ps1` | Grok Build 免費試用 worker；單回合 plan mode |
 | `tools/ask-gemini.ps1` | 舊 Gemini wrapper，只供歷史追溯 |
 | `start-codex.ps1` | 舊獨立 Codex CLI 啟動器；目前主要入口已是 Orca |
 
@@ -86,4 +89,4 @@ Windows PowerShell 可能阻擋 npm 的 `.ps1` shim；腳本內固定使用 `.cm
 
 ## 目前下一步
 
-環境擴充暫停。恢復時先以同一個已去敏感的小型 review 任務比較 Copilot Free、OpenRouter Free 與 Antigravity 的品質、延遲及 Codex 驗證成本；完成比較後，再決定是否接入 Grok。
+下一步先以同一個已去敏感的小型 review 任務比較 Copilot Free、OpenRouter Free、Grok Build 與 Antigravity 的品質、延遲及 Codex 驗證成本；再評估本地模型，建立真正不依賴雲端額度的背景 worker。
