@@ -35,6 +35,8 @@ This file preserves durable project context between Codex CLI sessions. It conta
 - The local wrapper initially failed an exact-format Chinese prompt; adding a strict fixed system instruction corrected it, producing `LOCAL_WRAPPER_OK` in about 3.3 seconds. This confirms the wrapper path while preserving the rule that Codex must validate small-model output quality.
 - A shared PowerShell security-review benchmark found all three requested risks through Grok (about 14.6 seconds), Antigravity (about 17.2 seconds), Copilot (about 37.0 seconds), and OpenRouter (about 11.4 seconds). Local Qwen was faster but failed formatting and misunderstood the code, so it is not approved for security review.
 - Copilot and OpenRouter wrappers now call their underlying Node loader or native executable directly. This prevents npm `.cmd` shims from reinterpreting prompt metacharacters such as `|`.
+- Environment v0.8 provides `tools/invoke-ai.ps1` as the single default delegation entry point and `tools/test-ai-workers.ps1` for static or live health checks. Codex selects task type and sensitivity; the user does not need to choose or reconfigure providers in later sessions.
+- All five live health checks passed. Unified routing selected Local Qwen for a private classification smoke test and Grok for a public review smoke test. Private prompts are never allowed to fall back to cloud workers.
 
 ## Decisions
 
@@ -52,6 +54,7 @@ This file preserves durable project context between Codex CLI sessions. It conta
 - Use Codex as the primary controller and final editor/verifier. Codex may automatically delegate substantial independent analysis, drafting, test strategy, or review work to Antigravity CLI, normally once and never more than twice per user request.
 - Show Codex model, remaining context, five-hour usage, weekly usage, and Git branch in the CLI footer. Antigravity CLI does not currently expose a reliable quota value for the Codex footer.
 - The installed standalone Gemini CLI 0.46.0 reports that Gemini Code Assist for individuals no longer supports this client and directs users to Antigravity, so it is not used as the active auxiliary workflow.
+- Use the unified router for normal delegation. Individual wrappers are adapters and diagnostic entry points; existing configured providers should not require user setup again unless authentication actually expires.
 - Environment audit on 2026-08-08 found a clean `main` branch synchronized with `origin/main`; all three PowerShell scripts parse without syntax errors.
 - The tracked Markdown files are valid UTF-8. Windows PowerShell 5.1's default `Get-Content` decoding can display their Chinese text as mojibake unless `-Encoding utf8` is used.
 - Codex CLI 0.147.0 is available through `codex.cmd`, and Antigravity CLI 1.1.11 is present. In a normal PowerShell session, the default execution policy can block the npm `codex.ps1` shim; the documented launcher uses `-ExecutionPolicy Bypass`.
@@ -76,7 +79,7 @@ This file preserves durable project context between Codex CLI sessions. It conta
 
 ## Next action
 
-- Add an automated health check that separately verifies wrapper startup, UTF-8 and metacharacter transport, provider authentication, exit codes, and format compliance.
+- Accumulate provider success rate and Codex verification cost from real tasks without storing prompts or sensitive content, then tune routing priority if evidence supports a change.
 
 ## Memory rules
 

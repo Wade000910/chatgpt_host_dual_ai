@@ -2,6 +2,22 @@
 
 這份文件按版本記錄實作過程、卡關、原因與解法。版本摘要見 `VERSION_HISTORY.md`；目前狀態與下一步見 `PROJECT_MEMORY.md`。任何憑證、配對碼、私人資料與不必要的本機路徑都不得出現在這裡。
 
+## v0.8 — 零設定統一路由與健康檢查
+
+### 完成
+
+- 新增單一委派入口與固定路由表；公開任務支援自動 fallback，私人任務禁止雲端 fallback。
+- Antigravity wrapper 補上 Base64 UTF-8 prompt，五個 adapter 介面一致。
+- 靜態檢查確認五個 dependency 與 wrapper 均存在。
+- live check 全數通過：Local Qwen 約 2.3 秒、OpenRouter 約 4.8 秒、Grok 約 3.6 秒、Copilot 約 25.1 秒、Antigravity 約 8.1 秒。
+- 統一路由 smoke test：私人分類由 Local Qwen 約 2.2 秒完成；公開 review 由 Grok 約 4.2 秒完成。
+
+卡關與解法：
+
+| 狀況 | 原因 | 解法 |
+|---|---|---|
+| live check 遇到 CLI 狀態 stderr 立即中止 | PowerShell 將 native stderr 配合 `ErrorActionPreference=Stop` 升級成例外 | 子 CLI 呼叫區段暫用 Continue，仍以實際退出碼與 marker 判定；其餘腳本維持 Stop |
+
 ## v0.7 — Worker 實題基準與參數修正
 
 ### 完成

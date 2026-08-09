@@ -2,7 +2,7 @@
 
 這個公開 repository 保存一套已實際驗證的 Windows／Orca 多 AI 協作環境。Codex 負責理解需求、分配工作、修改檔案與最終驗證；其他 AI 只接收最小必要 brief，協助唯讀分析、草稿或審查。
 
-目前版本是 **Environment v0.6**。手機連線、三個雲端輔助來源與一個完全本地的 Qwen worker 都已驗證。
+目前版本是 **Environment v0.8**。手機連線、四個雲端輔助來源、一個完全本地的 Qwen worker，以及零設定自動路由都已驗證。
 
 ## 目前狀態
 
@@ -44,15 +44,13 @@ Codex 判斷敏感度、風險、任務大小與是否值得委派
    ```
 
 3. 從 Orca 開啟此 workspace；Orca Mobile 只負責延續桌面工作階段，桌面 Orca 必須保持執行且電腦不可睡眠。
-4. 需要唯讀 worker 時使用：
+4. Codex 預設透過單一入口自動選擇與降級；不需要使用者指定 provider：
 
    ```powershell
-   powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\tools\ask-copilot.ps1 -Prompt "<PROMPT>"
-   powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\tools\ask-openrouter.ps1 -Prompt "<SANITIZED_PROMPT>"
-   powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\tools\ask-grok.ps1 -Prompt "<PROMPT>"
-   powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\tools\ask-local-qwen.ps1 -Prompt "<PROMPT>"
-   powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\tools\ask-antigravity.ps1 -Prompt "<PROMPT>"
+   powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\tools\invoke-ai.ps1 -Prompt "<PROMPT>" -TaskType Review -Sensitivity Public
    ```
+
+   安裝狀態檢查使用 `tools/test-ai-workers.ps1`；只有需要實際消耗一次各 provider 額度時才加 `-Live`。
 
 Windows PowerShell 可能阻擋 npm 的 `.ps1` shim；腳本內直接使用 Node loader 或原生 executable，避免 `.cmd` 再解析長 prompt，也不依賴修改全機 Execution Policy。
 
@@ -79,6 +77,8 @@ Windows PowerShell 可能阻擋 npm 的 `.ps1` shim；腳本內直接使用 Node
 | `tools/ask-openrouter.ps1` | OpenRouter Free worker；使用 OpenCode plan agent |
 | `tools/ask-grok.ps1` | Grok Build 免費試用 worker；單回合 plan mode |
 | `tools/ask-local-qwen.ps1` | 本地 Qwen worker；透過 Ollama localhost API，不傳送資料到雲端 |
+| `tools/invoke-ai.ps1` | 統一自動路由、敏感度隔離與失敗降級入口 |
+| `tools/test-ai-workers.ps1` | 五個 worker 的靜態或 live JSON health check |
 | `tools/ask-gemini.ps1` | 舊 Gemini wrapper，只供歷史追溯 |
 | `start-codex.ps1` | 舊獨立 Codex CLI 啟動器；目前主要入口已是 Orca |
 
@@ -93,4 +93,4 @@ Windows PowerShell 可能阻擋 npm 的 `.ps1` shim；腳本內直接使用 Node
 
 ## 目前下一步
 
-下一步建立自動 health check，分開驗證 wrapper 啟動、UTF-8／特殊字元傳遞、provider 登入狀態與固定格式輸出，避免只靠固定字串測試造成假陽性。
+下一步讓 Codex 在實際任務中累積各 provider 的成功率與驗證成本，再調整路由優先序；不得保存 prompt 或敏感內容作為遙測。
