@@ -2,9 +2,23 @@
 
 環境版本描述可重現的能力里程碑；Git commit 保存更細的逐次修改。每次新增、移除或改變 provider、路由、安全邊界、手機連線或記憶方式，都必須新增版本紀錄。
 
-## v0.7 — 2026-08-09 — Worker 實題基準與參數修正
+## v0.8 — 2026-08-09 — 零設定統一路由與健康檢查
 
 狀態：目前版本
+
+目標：讓 Codex 在後續 session 直接協作，不再要求使用者逐一選擇或設定 AI provider。
+
+主要交付：
+
+- 新增 `tools/invoke-ai.ps1`，依任務類型、敏感度與 provider 狀態自動路由及降級。
+- 私人 prompt 強制只走 Local Qwen，絕不自動降級至雲端。
+- 新增 `tools/test-ai-workers.ps1`，支援零額度靜態檢查與五 provider live check。
+- 五個 live check 全數通過；統一路由實測私人分類走 Local Qwen、公開 review 走 Grok。
+- AGENTS 規則固定 Codex 使用統一入口，不要求使用者重做既有設定。
+
+## v0.7 — 2026-08-09 — Worker 實題基準與參數修正
+
+狀態：已完成
 
 目標：用同一個安全 review 任務驗證五條路徑，並修正 Windows `.cmd` 對 prompt 的二次解析。
 

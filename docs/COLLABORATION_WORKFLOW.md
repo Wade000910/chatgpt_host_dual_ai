@@ -41,6 +41,17 @@ Codex 先讀取 `PROJECT_MEMORY.md`，再確認：
 
 ## 4. Worker 入口
 
+### 統一自動入口（預設）
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\tools\invoke-ai.ps1 -Prompt "<PROMPT>" -TaskType Review -Sensitivity Public
+```
+
+- Codex 指定任務類型與敏感度，不要求使用者選 provider。
+- 公開任務會依路由表自動降級；私人任務只允許 Local Qwen，失敗時停止，不轉送雲端。
+- `-PassThru` 以 JSON 回傳實際 provider、延遲與答案，供 Codex 驗證。
+- 個別 `ask-*.ps1` 保留作底層 adapter 與診斷入口，不作為日常使用介面。
+
 ### Copilot Free
 
 ```powershell
@@ -120,6 +131,15 @@ Codex 必須自行確認：
 - 測試是否足以涵蓋風險。
 - changed／staged files 是否含敏感資訊。
 - 最終答案是否保留未解分歧，而非製造假共識。
+
+環境健康檢查：
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\tools\test-ai-workers.ps1
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\tools\test-ai-workers.ps1 -Live
+```
+
+第一條只檢查安裝與 wrapper，不消耗模型額度；第二條實際驗證登入、推論、退出碼與固定 marker。
 
 ## 7. GitHub 紀錄
 

@@ -20,6 +20,8 @@ At the beginning of every session, read `PROJECT_MEMORY.md` before discussing pr
 
 ## Routing policy
 
+- Use `tools/invoke-ai.ps1` as the default auxiliary-worker entry point. Codex chooses task type and sensitivity; do not ask the user to select or reconfigure a provider when an eligible worker is already available.
+- Let the unified entry point fall back automatically among eligible cloud workers. Private prompts may use Local Qwen only and must never fall back to cloud providers.
 - Use one agent by default.
 - Do not delegate trivial questions or simple edits when handoff cost exceeds value.
 - Prefer Copilot Free for low-risk short drafts and independent checks.
