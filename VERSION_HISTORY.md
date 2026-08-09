@@ -2,9 +2,29 @@
 
 環境版本描述可重現的能力里程碑；Git commit 保存更細的逐次修改。每次新增、移除或改變 provider、路由、安全邊界、手機連線或記憶方式，都必須新增版本紀錄。
 
-## v0.5 — 2026-08-09 — Grok Build 免費試用
+## v0.6 — 2026-08-09 — 本地 Qwen／Ollama worker
 
 狀態：目前版本
+
+目標：建立不使用雲端額度、資料不離開電腦的背景 worker。
+
+主要交付：
+
+- 硬體確認為 8GB NVIDIA VRAM、16GB system RAM，適合 4B～9B 量化模型。
+- 安裝 Ollama 0.32.6 與 `qwen3.5:4b`（約 3.4GB）。
+- 確認模型 100% GPU offload。
+- thinking 關閉後固定回應測試約 2.4 秒、約 65 tokens/s。
+- 新增 `tools/ask-local-qwen.ps1`，只呼叫 localhost API，不提供工具。
+
+已知限制：
+
+- 4B 模型品質不等同大型雲端模型；Codex 仍須驗證輸出。
+- 目前固定 8K context，避免 8GB VRAM 因 KV cache 壓力溢出。
+- Ollama 必須在本機背景執行。
+
+## v0.5 — 2026-08-09 — Grok Build 免費試用
+
+狀態：已完成
 
 目標：驗證 xAI 官方 Grok Build CLI 的免費 OAuth 路徑，並以嚴格唯讀設定加入實驗性 worker pool。
 

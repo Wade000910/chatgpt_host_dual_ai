@@ -2,7 +2,7 @@
 
 這個公開 repository 保存一套已實際驗證的 Windows／Orca 多 AI 協作環境。Codex 負責理解需求、分配工作、修改檔案與最終驗證；其他 AI 只接收最小必要 brief，協助唯讀分析、草稿或審查。
 
-目前版本是 **Environment v0.5**。手機連線、Antigravity、GitHub Copilot Free、OpenRouter Free 與 Grok Build 免費試用都已驗證。
+目前版本是 **Environment v0.6**。手機連線、三個雲端輔助來源與一個完全本地的 Qwen worker 都已驗證。
 
 ## 目前狀態
 
@@ -14,6 +14,7 @@
 | OpenRouter Free／OpenCode | 已驗證 | 公開或已去敏感任務的免費模型池 | 使用 plan agent 與暫存目錄 |
 | Orca Mobile | 已驗證 | iPhone 經行動網路延續桌面 Orca 工作階段 | 不適用 |
 | Grok Build | 已驗證，免費試用 | 一回合的低風險獨立分析 | plan mode、停用 subagents／web search |
+| Local Qwen／Ollama | 已驗證，本機免費 | 私密、低風險、短回合背景任務 | 無工具、8K context、thinking 關閉 |
 
 ## 核心流程
 
@@ -21,6 +22,7 @@
 使用者需求
   ↓
 Codex 判斷敏感度、風險、任務大小與是否值得委派
+  ├─ 私密且低風險的短任務 → Local Qwen（第一順位）
   ├─ 低風險、短草稿／檢查 → Copilot Free
   ├─ 公開或已去敏感、可容忍供應波動 → OpenRouter Free
   ├─ 低風險單回合、需要另一模型觀點 → Grok Build 免費試用
@@ -48,6 +50,7 @@ Codex 判斷敏感度、風險、任務大小與是否值得委派
    powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\tools\ask-copilot.ps1 -Prompt "<PROMPT>"
    powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\tools\ask-openrouter.ps1 -Prompt "<SANITIZED_PROMPT>"
    powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\tools\ask-grok.ps1 -Prompt "<PROMPT>"
+   powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\tools\ask-local-qwen.ps1 -Prompt "<PROMPT>"
    powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\tools\ask-antigravity.ps1 -Prompt "<PROMPT>"
    ```
 
@@ -75,6 +78,7 @@ Windows PowerShell 可能阻擋 npm 的 `.ps1` shim；腳本內固定使用 `.cm
 | `tools/ask-copilot.ps1` | Copilot Free 唯讀 worker；禁止 shell 與 write |
 | `tools/ask-openrouter.ps1` | OpenRouter Free worker；使用 OpenCode plan agent |
 | `tools/ask-grok.ps1` | Grok Build 免費試用 worker；單回合 plan mode |
+| `tools/ask-local-qwen.ps1` | 本地 Qwen worker；透過 Ollama localhost API，不傳送資料到雲端 |
 | `tools/ask-gemini.ps1` | 舊 Gemini wrapper，只供歷史追溯 |
 | `start-codex.ps1` | 舊獨立 Codex CLI 啟動器；目前主要入口已是 Orca |
 
@@ -89,4 +93,4 @@ Windows PowerShell 可能阻擋 npm 的 `.ps1` shim；腳本內固定使用 `.cm
 
 ## 目前下一步
 
-下一步先以同一個已去敏感的小型 review 任務比較 Copilot Free、OpenRouter Free、Grok Build 與 Antigravity 的品質、延遲及 Codex 驗證成本；再評估本地模型，建立真正不依賴雲端額度的背景 worker。
+下一步以同一個小型 review 任務比較 Local Qwen、Copilot Free、OpenRouter Free、Grok Build 與 Antigravity 的品質、延遲及 Codex 驗證成本，再把結果轉成固定路由門檻。

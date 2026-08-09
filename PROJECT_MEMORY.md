@@ -30,6 +30,9 @@ This file preserves durable project context between Codex CLI sessions. It conta
 - Environment v0.4 reorganizes collaborator-facing documentation into `README.md`, `docs/COLLABORATION_WORKFLOW.md`, `VERSION_HISTORY.md`, and `ENVIRONMENT_CHANGELOG.md`; each future environment version must update the version history and implementation changelog.
 - Grok Build 1.0.0 is installed and authenticated through xAI OAuth without an API key or API billing. A restricted headless test returned `GROK_FREE_OK` in about 6.5 seconds with no project changes. The official product says available to try for free but does not guarantee permanent quota.
 - `tools/ask-grok.ps1` is the experimental Grok worker entry point. It supports plain or Base64 UTF-8 prompts, uses plan permission mode from the system temporary directory, disables subagents and web search, and limits execution to one turn.
+- Local hardware provides an NVIDIA laptop GPU with 8GB VRAM and 16GB system RAM. Ollama 0.32.6 and `qwen3.5:4b` are installed; the model runs with 100% GPU offload. With thinking disabled and 8K context, a fixed-response test completed in about 2.4 seconds at about 65 tokens per second.
+- `tools/ask-local-qwen.ps1` is the private local worker entry point. It calls only the localhost Ollama API, fixes temperature to zero, disables thinking, limits context to 8K, and exposes no file, shell, or network tools.
+- The local wrapper initially failed an exact-format Chinese prompt; adding a strict fixed system instruction corrected it, producing `LOCAL_WRAPPER_OK` in about 3.3 seconds. This confirms the wrapper path while preserving the rule that Codex must validate small-model output quality.
 
 ## Decisions
 
@@ -67,11 +70,11 @@ This file preserves durable project context between Codex CLI sessions. It conta
 - Should the literal Markdown escape characters in `AGENTS.md` be normalized for readability and reliable parsing?
 - How does the Copilot-first worker compare with Antigravity-first on completion time, quota cost, and Codex verification effort?
 - Antigravity CLI is Google's successor to Gemini CLI for individual free, Google AI Pro, and Ultra accounts as of 2026-06-18; it must not be counted as a separate quota pool from Gemini CLI. Grok Build is now a verified experimental free-trial worker, but its quota is not guaranteed; Kimi Code and MiniMax are not stable free resources under their current official plans.
-- Free-resource priority: GitHub Copilot Free first; OpenRouter Free through OpenCode second for public or sanitized low-risk tasks; Grok Build free trial as an experimental single-turn source; local models after hardware validation. Claude Code has no standalone free CLI entitlement, and Qwen OAuth free access ended on 2026-04-15.
+- Free-resource priority: Local Qwen first for private short low-risk tasks; GitHub Copilot Free for low-risk drafts and checks; OpenRouter Free for public or sanitized content; Grok Build free trial as an experimental single-turn source. Claude Code has no standalone free CLI entitlement, and Qwen OAuth free access ended on 2026-04-15.
 
 ## Next action
 
-- Compare Copilot Free, OpenRouter Free, Grok Build, and paid Antigravity on one small sanitized review task; then validate local hardware for a zero-cloud-quota background worker.
+- Compare Local Qwen, Copilot Free, OpenRouter Free, Grok Build, and paid Antigravity on one small review task, then convert the measured quality, latency, and Codex verification effort into fixed routing thresholds.
 
 ## Memory rules
 

@@ -17,6 +17,7 @@ Codex 先讀取 `PROJECT_MEMORY.md`，再確認：
 | 條件 | 優先路由 | 原因 |
 |---|---|---|
 | 簡單問答、小修改 | Codex | 委派成本高於收益 |
+| 私密、低風險、短回合分析 | Local Qwen | 資料不離開電腦，不消耗雲端額度 |
 | 低風險短草稿、格式整理、獨立檢查 | Copilot Free | 保留 Codex 額度；wrapper 禁止 shell／write |
 | 公開或已去敏感的低風險分析 | OpenRouter Free | 使用免費模型池；允許供應與品質波動 |
 | 低風險單回合、需要另一模型觀點 | Grok Build 免費試用 | OAuth 可用；免費 entitlement 可能調整 |
@@ -50,6 +51,17 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\tools\ask-copilot.ps1 
 - 關閉 repository custom instructions。
 - CLI 雖要求允許工具，但 wrapper 明確 deny `shell` 與 `write`。
 - 支援 `-PromptBase64`，用於 Orca terminal 傳送中文或長 brief。
+
+### Local Qwen／Ollama
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\tools\ask-local-qwen.ps1 -Prompt "<PROMPT>"
+```
+
+- 只呼叫 `127.0.0.1` 的 Ollama API，資料不送到雲端。
+- 固定使用 `qwen3.5:4b`、8K context、temperature 0、thinking 關閉。
+- wrapper 不提供 shell、檔案或網路工具，適合短草稿、分類、摘要與獨立檢查。
+- 本機模型品質低於大型雲端模型時，Codex 必須拒絕低品質結果並改走其他路由。
 
 ### OpenRouter Free
 
