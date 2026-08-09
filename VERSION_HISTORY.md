@@ -2,9 +2,27 @@
 
 環境版本描述可重現的能力里程碑；Git commit 保存更細的逐次修改。每次新增、移除或改變 provider、路由、安全邊界、手機連線或記憶方式，都必須新增版本紀錄。
 
-## v0.4 — 2026-08-09 — 文件與 checkpoint
+## v0.5 — 2026-08-09 — Grok Build 免費試用
 
 狀態：目前版本
+
+目標：驗證 xAI 官方 Grok Build CLI 的免費 OAuth 路徑，並以嚴格唯讀設定加入實驗性 worker pool。
+
+主要交付：
+
+- 安裝 Grok Build 1.0.0，加入使用者 PATH。
+- 以 xAI 官方 OAuth 完成登入，沒有建立 API key 或啟用 API billing。
+- 完成 headless 單回合測試，約 6.5 秒回覆 `GROK_FREE_OK`。
+- 新增 `tools/ask-grok.ps1`，固定 plan mode、暫存目錄、停用 subagents 與 web search、最多一回合。
+
+已知限制：
+
+- xAI 只標示 available to try for free，未承諾永久或固定免費額度。
+- Grok Build 免費試用與 xAI API 計費是不同 entitlement；不得把 API 視為免費。
+
+## v0.4 — 2026-08-09 — 文件與 checkpoint
+
+狀態：已完成
 
 目標：讓未參與前期工作的協作者能從 GitHub 理解現況、歷史、實際流程與下一步。
 

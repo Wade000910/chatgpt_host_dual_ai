@@ -9,6 +9,7 @@ Available auxiliary workers:
 - Antigravity: high-value analysis, architecture comparison, second opinion, and review.
 - GitHub Copilot Free: low-risk read-only drafting and independent checks through `tools/ask-copilot.ps1`.
 - OpenRouter Free through OpenCode: public or sanitized low-risk analysis through `tools/ask-openrouter.ps1`.
+- Grok Build free trial: low-risk single-turn independent analysis through `tools/ask-grok.ps1`.
 
 Auxiliary workers must not modify project files. Codex alone performs and verifies edits, tests, privacy scans, commits, pushes, and final answers.
 
@@ -23,6 +24,7 @@ At the beginning of every session, read `PROJECT_MEMORY.md` before discussing pr
 - Prefer Copilot Free for low-risk short drafts and independent checks.
 - Use OpenRouter Free only for public or sanitized content that can tolerate free-model variability.
 - Use Antigravity for architecture, substantial risk, formal second opinions, or focused review after repeated failure.
+- Use Grok Build only for low-risk single-turn analysis; its free entitlement is experimental and may change.
 - Parallelize only genuinely independent tasks.
 - Never pass raw transcripts between agents. Send only objective, constraints, necessary evidence, deliverable, and pass/fail criteria.
 - Never send passwords, tokens, API keys, credentials, pairing codes, or unnecessary personal information to any worker.
