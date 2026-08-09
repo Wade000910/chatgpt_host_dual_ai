@@ -2,9 +2,27 @@
 
 環境版本描述可重現的能力里程碑；Git commit 保存更細的逐次修改。每次新增、移除或改變 provider、路由、安全邊界、手機連線或記憶方式，都必須新增版本紀錄。
 
-## v0.6 — 2026-08-09 — 本地 Qwen／Ollama worker
+## v0.7 — 2026-08-09 — Worker 實題基準與參數修正
 
 狀態：目前版本
+
+目標：用同一個安全 review 任務驗證五條路徑，並修正 Windows `.cmd` 對 prompt 的二次解析。
+
+主要交付：
+
+- Copilot 改為直接呼叫 Node loader；OpenRouter 改為直接呼叫 OpenCode executable。
+- 實題結果：OpenRouter 約 11.4 秒、Grok 約 14.6 秒、Antigravity 約 17.2 秒、Copilot 約 37.0 秒，四者均找到三項指定風險。
+- Local Qwen 約 5.5 秒，但未遵守格式並誤解程式語意，因此禁止承擔安全審查或最終判斷。
+- 固定路由以資料敏感度與任務風險優先，延遲只作次要依據。
+
+已知限制：
+
+- OpenRouter 會附加 CLI 狀態文字；Antigravity 在含 `|` 的格式測試後出現 shell 雜訊，Codex 必須清理並驗證。
+- 單次樣本只能建立安全下限，不能視為永久模型排名。
+
+## v0.6 — 2026-08-09 — 本地 Qwen／Ollama worker
+
+狀態：已完成
 
 目標：建立不使用雲端額度、資料不離開電腦的背景 worker。
 

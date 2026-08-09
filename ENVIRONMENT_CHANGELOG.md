@@ -2,6 +2,24 @@
 
 這份文件按版本記錄實作過程、卡關、原因與解法。版本摘要見 `VERSION_HISTORY.md`；目前狀態與下一步見 `PROJECT_MEMORY.md`。任何憑證、配對碼、私人資料與不必要的本機路徑都不得出現在這裡。
 
+## v0.7 — Worker 實題基準與參數修正
+
+### 完成
+
+- 使用同一個去識別 PowerShell review 題，要求恰好指出命令注入、破壞性路徑與錯誤處理三項風險。
+- Copilot、OpenRouter、Grok 與 Antigravity 均提出技術上可接受的三項修正；Local Qwen 未達安全審查門檻。
+- `ask-copilot.ps1` 不再經 npm `.cmd`，改為 Node 直接載入 Copilot CLI。
+- `ask-openrouter.ps1` 不再經 npm `.cmd`，改為直接執行 OpenCode binary。
+
+卡關與解法：
+
+| 狀況 | 原因 | 解法 |
+|---|---|---|
+| 第一輪量測表面 exit 0、實際 wrapper 未啟動 | `Measure-Command` 未傳播 script execution-policy 錯誤 | 使用正式 Bypass launcher、碼表與實際 `$LASTEXITCODE` |
+| Copilot／OpenRouter 對含 `|` prompt 退出 | npm `.cmd` 經 `cmd.exe` 二次解析 shell metacharacter | 直接呼叫 Node loader／原生 executable |
+| Local Qwen 快速但誤解語意與格式 | 4B 模型能力不足，固定字串 smoke test 過度樂觀 | 限制為私人低風險草稿；安全與破壞性決策改走雲端大模型並由 Codex 驗證 |
+| OpenRouter、Antigravity 回覆含額外狀態或 shell 雜訊 | provider CLI 自身輸出未完全 machine-clean | Codex 以內容與退出碼共同驗證；後續 health check 加入輸出正規化測試 |
+
 ## v0.6 — 本地 Qwen／Ollama worker
 
 ### 完成

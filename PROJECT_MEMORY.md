@@ -33,6 +33,8 @@ This file preserves durable project context between Codex CLI sessions. It conta
 - Local hardware provides an NVIDIA laptop GPU with 8GB VRAM and 16GB system RAM. Ollama 0.32.6 and `qwen3.5:4b` are installed; the model runs with 100% GPU offload. With thinking disabled and 8K context, a fixed-response test completed in about 2.4 seconds at about 65 tokens per second.
 - `tools/ask-local-qwen.ps1` is the private local worker entry point. It calls only the localhost Ollama API, fixes temperature to zero, disables thinking, limits context to 8K, and exposes no file, shell, or network tools.
 - The local wrapper initially failed an exact-format Chinese prompt; adding a strict fixed system instruction corrected it, producing `LOCAL_WRAPPER_OK` in about 3.3 seconds. This confirms the wrapper path while preserving the rule that Codex must validate small-model output quality.
+- A shared PowerShell security-review benchmark found all three requested risks through Grok (about 14.6 seconds), Antigravity (about 17.2 seconds), Copilot (about 37.0 seconds), and OpenRouter (about 11.4 seconds). Local Qwen was faster but failed formatting and misunderstood the code, so it is not approved for security review.
+- Copilot and OpenRouter wrappers now call their underlying Node loader or native executable directly. This prevents npm `.cmd` shims from reinterpreting prompt metacharacters such as `|`.
 
 ## Decisions
 
@@ -70,11 +72,11 @@ This file preserves durable project context between Codex CLI sessions. It conta
 - Should the literal Markdown escape characters in `AGENTS.md` be normalized for readability and reliable parsing?
 - How does the Copilot-first worker compare with Antigravity-first on completion time, quota cost, and Codex verification effort?
 - Antigravity CLI is Google's successor to Gemini CLI for individual free, Google AI Pro, and Ultra accounts as of 2026-06-18; it must not be counted as a separate quota pool from Gemini CLI. Grok Build is now a verified experimental free-trial worker, but its quota is not guaranteed; Kimi Code and MiniMax are not stable free resources under their current official plans.
-- Free-resource priority: Local Qwen first for private short low-risk tasks; GitHub Copilot Free for low-risk drafts and checks; OpenRouter Free for public or sanitized content; Grok Build free trial as an experimental single-turn source. Claude Code has no standalone free CLI entitlement, and Qwen OAuth free access ended on 2026-04-15.
+- Free-resource priority: Local Qwen only for private low-risk drafts or classification; OpenRouter Free for sanitized low-risk analysis; Grok Build for sanitized single-turn review; Copilot Free for stronger low-risk drafts when extra latency is acceptable. Claude Code has no standalone free CLI entitlement, and Qwen OAuth free access ended on 2026-04-15.
 
 ## Next action
 
-- Compare Local Qwen, Copilot Free, OpenRouter Free, Grok Build, and paid Antigravity on one small review task, then convert the measured quality, latency, and Codex verification effort into fixed routing thresholds.
+- Add an automated health check that separately verifies wrapper startup, UTF-8 and metacharacter transport, provider authentication, exit codes, and format compliance.
 
 ## Memory rules
 
