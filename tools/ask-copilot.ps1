@@ -33,20 +33,26 @@ if ([string]::IsNullOrWhiteSpace($Prompt)) {
     exit 2
 }
 
-$copilotCmd = Join-Path $env:APPDATA "npm\copilot.cmd"
+$copilotLoader = Join-Path $env:APPDATA "npm\node_modules\@github\copilot\npm-loader.js"
+$nodeExe = Join-Path $env:ProgramFiles "nodejs\node.exe"
 
-if (-not (Test-Path $copilotCmd)) {
-    $resolved = Get-Command copilot.cmd -ErrorAction SilentlyContinue
-    if ($null -eq $resolved) {
-        Write-Error "GitHub Copilot CLI was not found."
+if (-not (Test-Path -LiteralPath $copilotLoader)) {
+    Write-Error "GitHub Copilot CLI loader was not found."
+    exit 3
+}
+
+if (-not (Test-Path -LiteralPath $nodeExe)) {
+    $resolvedNode = Get-Command node.exe -ErrorAction SilentlyContinue
+    if ($null -eq $resolvedNode) {
+        Write-Error "Node.js was not found."
         exit 3
     }
 
-    $copilotCmd = $resolved.Source
+    $nodeExe = $resolvedNode.Source
 }
 
 try {
-    & $copilotCmd `
+    & $nodeExe $copilotLoader `
         --prompt $Prompt `
         --silent `
         --no-auto-update `

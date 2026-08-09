@@ -17,10 +17,10 @@ Codex 先讀取 `PROJECT_MEMORY.md`，再確認：
 | 條件 | 優先路由 | 原因 |
 |---|---|---|
 | 簡單問答、小修改 | Codex | 委派成本高於收益 |
-| 私密、低風險、短回合分析 | Local Qwen | 資料不離開電腦，不消耗雲端額度 |
+| 私密、低風險、短草稿／分類 | Local Qwen | 資料不離開電腦；實題顯示不可承擔安全判斷 |
 | 低風險短草稿、格式整理、獨立檢查 | Copilot Free | 保留 Codex 額度；wrapper 禁止 shell／write |
-| 公開或已去敏感的低風險分析 | OpenRouter Free | 使用免費模型池；允許供應與品質波動 |
-| 低風險單回合、需要另一模型觀點 | Grok Build 免費試用 | OAuth 可用；免費 entitlement 可能調整 |
+| 公開或已去敏感的低風險分析 | OpenRouter Free | 實題速度佳；允許供應、品質與 CLI 狀態文字波動 |
+| 公開或已去敏感的單回合 review | Grok Build 免費試用 | 實題格式與內容完整；免費 entitlement 可能調整 |
 | 架構比較、重大風險、第二意見 | Antigravity | 適合深度分析與審查 |
 | `雙AI：`／`雙 AI：`／`Dual AI:` | Codex + Antigravity | repository 的正式雙 AI 規則 |
 | 修改、測試、隱私掃描、commit、push | Codex | 最終責任不可委派 |
@@ -62,6 +62,7 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\tools\ask-local-qwen.p
 - 固定使用 `qwen3.5:4b`、8K context、temperature 0、thinking 關閉。
 - wrapper 不提供 shell、檔案或網路工具，適合短草稿、分類、摘要與獨立檢查。
 - 本機模型品質低於大型雲端模型時，Codex 必須拒絕低品質結果並改走其他路由。
+- 不得用於安全審查、破壞性操作判斷或無人驗證的最終答案。
 
 ### OpenRouter Free
 

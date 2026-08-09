@@ -54,7 +54,7 @@ Codex 判斷敏感度、風險、任務大小與是否值得委派
    powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\tools\ask-antigravity.ps1 -Prompt "<PROMPT>"
    ```
 
-Windows PowerShell 可能阻擋 npm 的 `.ps1` shim；腳本內固定使用 `.cmd` 或原生 executable，避免依賴修改全機 Execution Policy。
+Windows PowerShell 可能阻擋 npm 的 `.ps1` shim；腳本內直接使用 Node loader 或原生 executable，避免 `.cmd` 再解析長 prompt，也不依賴修改全機 Execution Policy。
 
 ## 正式雙 AI 觸發
 
@@ -93,4 +93,4 @@ Windows PowerShell 可能阻擋 npm 的 `.ps1` shim；腳本內固定使用 `.cm
 
 ## 目前下一步
 
-下一步以同一個小型 review 任務比較 Local Qwen、Copilot Free、OpenRouter Free、Grok Build 與 Antigravity 的品質、延遲及 Codex 驗證成本，再把結果轉成固定路由門檻。
+下一步建立自動 health check，分開驗證 wrapper 啟動、UTF-8／特殊字元傳遞、provider 登入狀態與固定格式輸出，避免只靠固定字串測試造成假陽性。

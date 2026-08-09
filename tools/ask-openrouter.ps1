@@ -33,20 +33,15 @@ if ([string]::IsNullOrWhiteSpace($Prompt)) {
     exit 2
 }
 
-$openCodeCmd = Join-Path $env:APPDATA "npm\opencode.cmd"
+$openCodeExe = Join-Path $env:APPDATA "npm\node_modules\opencode-ai\bin\opencode.exe"
 
-if (-not (Test-Path $openCodeCmd)) {
-    $resolved = Get-Command opencode.cmd -ErrorAction SilentlyContinue
-    if ($null -eq $resolved) {
-        Write-Error "OpenCode CLI was not found."
-        exit 3
-    }
-
-    $openCodeCmd = $resolved.Source
+if (-not (Test-Path -LiteralPath $openCodeExe)) {
+    Write-Error "OpenCode executable was not found."
+    exit 3
 }
 
 try {
-    & $openCodeCmd run $Prompt `
+    & $openCodeExe run $Prompt `
         --model openrouter/openrouter/free `
         --agent plan `
         --dir ([System.IO.Path]::GetTempPath())
