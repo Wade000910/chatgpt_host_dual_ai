@@ -1,6 +1,6 @@
 # FCO Project Memory
 
-Last updated: 2026-08-09
+Last updated: 2026-08-15
 
 ## Purpose
 
@@ -36,6 +36,8 @@ This file preserves durable project context between Codex CLI sessions. It conta
 - A shared PowerShell security-review benchmark found all three requested risks through Grok (about 14.6 seconds), Antigravity (about 17.2 seconds), Copilot (about 37.0 seconds), and OpenRouter (about 11.4 seconds). Local Qwen was faster but failed formatting and misunderstood the code, so it is not approved for security review.
 - Copilot and OpenRouter wrappers now call their underlying Node loader or native executable directly. This prevents npm `.cmd` shims from reinterpreting prompt metacharacters such as `|`.
 - Environment v0.8 provides `tools/invoke-ai.ps1` as the single default delegation entry point and `tools/test-ai-workers.ps1` for static or live health checks. Codex selects task type and sensitivity; the user does not need to choose or reconfigure providers in later sessions.
+- Environment v0.9 adds checkpoint-based Antigravity supervision for substantive work. It reviews high-impact plans, major implementations, and research, safety, privacy, or measurement claims; Codex verifies issues, may use one focused follow-up, and records unresolved risk without manufacturing consensus.
+- The user grants standing authorization for read-only GitHub access to the active repository and repositories named or placed in scope by the user. Codex should not ask before inspecting them or listing the user's repositories to locate a named project, but must not autonomously traverse unrelated private or organization repositories. Explicit authorization is required before sending local or newly generated content to GitHub or changing remote state; an instruction that names the action and target is sufficient for that request. Feature branches and PRs remain the default, while direct protected/default-branch pushes and force pushes require explicit target-specific authorization.
 - All five live health checks passed. Unified routing selected Local Qwen for a private classification smoke test and Grok for a public review smoke test. Private prompts are never allowed to fall back to cloud workers.
 
 ## Decisions
@@ -43,7 +45,7 @@ This file preserves durable project context between Codex CLI sessions. It conta
 - Current priority is migrating the working environment from standalone Codex CLI into Orca. FCO implementation and the dual-AI collaboration workflow are deferred until that migration is understood and stabilized.
 - After the Orca migration is stable, the next environment objective is secure phone control of Orca agent sessions through the official Orca Mobile companion.
 - Orca Mobile is the selected primary phone-access path. Chrome Remote Desktop remains an optional full-Windows fallback; AC-powered automatic sleep is disabled to preserve Orca host availability, while battery sleep remains set to three minutes.
-- Proposed multi-AI policy: Codex remains the sole coordinator and verifier; use one agent by default, Orca workers only for genuinely independent parallel tasks, and Antigravity only for high-value architecture or review, or after repeated failed attempts.
+- Multi-AI policy: Codex remains the sole coordinator and verifier; use one agent by default, and use Antigravity as a checkpoint-based supervisory reviewer for substantive high-impact work while keeping it read-only.
 - Proposed quota policy: route suitable low-risk work to verified free-tier agents first, then give Codex only compressed candidate results, diffs, and evidence for final decisions. Preserve Codex quota as the scarce fallback and verification resource.
 - Proposed context policy: never pass raw transcripts between agents; use a compact brief containing objective, constraints, target files or evidence, deliverable, and pass/fail criteria.
 - Current recommendation: begin with a Python offline analysis prototype, plus a very small Android device-performance probe if real-time operation may be essential.
@@ -51,6 +53,7 @@ This file preserves durable project context between Codex CLI sessions. It conta
 - Use feature branches and Pull Requests for GitHub delivery instead of pushing unreviewed work directly to `main`.
 - Keep a collaborator-facing project overview in `README.md` so others with repository access can understand the configured dual-AI, memory, GitHub, and safety workflows without exposing credentials.
 - Treat every tracked file and commit as publicly visible; exclude credentials and unnecessary personal information before pushing.
+- Do not duplicate permission questions for read-only GitHub access. Platform-enforced sandbox prompts may still occur independently of the project policy.
 - Use Codex as the primary controller and final editor/verifier. Codex may automatically delegate substantial independent analysis, drafting, test strategy, or review work to Antigravity CLI, normally once and never more than twice per user request.
 - Show Codex model, remaining context, five-hour usage, weekly usage, and Git branch in the CLI footer. Antigravity CLI does not currently expose a reliable quota value for the Codex footer.
 - The installed standalone Gemini CLI 0.46.0 reports that Gemini Code Assist for individuals no longer supports this client and directs users to Antigravity, so it is not used as the active auxiliary workflow.
@@ -79,7 +82,7 @@ This file preserves durable project context between Codex CLI sessions. It conta
 
 ## Next action
 
-- Accumulate provider success rate and Codex verification cost from real tasks without storing prompts or sensitive content, then tune routing priority if evidence supports a change.
+- Apply the Antigravity supervisory checkpoint to the next substantive Basketball-MVP-System planning or implementation task, then record whether it found an accepted issue, resolved disagreement, or unresolved risk without storing prompts or sensitive content.
 
 ## Memory rules
 
